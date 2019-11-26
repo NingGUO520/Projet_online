@@ -1,6 +1,5 @@
 package tme4;
 
-import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -14,24 +13,6 @@ import java.io.*;
 
 public class Jaccard {
 	
-	public static void main(String[] args) throws IOException {
-		ArrayList<String> files = new ArrayList<>();
-		files.add("Test/S.txt");
-		files.add("Test/U.txt");
-		files.add("Test/V.txt");
-		files.add("Test/w.txt");
-		// Map<String, Double> CCFiles = closenessCentrality(files);
-		// System.out.println("CCFiles : " + CCFiles);
-		
-		String fileEdges = "edges.file";
-		double edgeThehard = 0.75;
-		edges(files, fileEdges, edgeThehard);
-		System.out.println(".............................FIN.............................");
-	}
-
-
-	
-
 	public static Map<String, Double> closenessCentrality(ArrayList<String> files) throws IOException{
 		Map<String, Double> CCFiles = new HashMap<String, Double>();
 		
@@ -59,35 +40,6 @@ public class Jaccard {
 		return CCFiles;
 	}
 	
-	public static void edges(ArrayList<String> files, String fileEdges, double edgeThehard) throws IOException{
-        BufferedWriter writer = new BufferedWriter(new FileWriter(new File(fileEdges)));
-        
-        Map<String, Integer> indexFiles = new HashMap<String, Integer>();
-        
-        int i =0;
-        for(String file : files) {
-        	i++;
-        	indexFiles.put(file, i);
-        }
-
-        files.forEach(d1 -> {
-			files.forEach(d2 -> {
-				if(!d1.equals(d2)) {
-					try {
-						double d = distanceJaccard(index(d1),index(d2));
-						System.out.println("d : " + d);
-						if(distanceJaccard(index(d1),index(d2)) <= edgeThehard){
-							writer.write(indexFiles.get(d1) + " " + indexFiles.get(d2) + " " + d + "\n");
-						}
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			});
-		});
-        writer.close();
-        writeMap(indexFiles, "fileIndex.txt");
-	}
 	
 	public static void writeMap(Map<String, Integer> mHashMap, String OutputFile) throws IOException {
 		try(BufferedWriter writer = new BufferedWriter(new FileWriter(new File(OutputFile)))) {
@@ -139,6 +91,39 @@ public class Jaccard {
 				collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 	}
 
-	
+	public static void edges(ArrayList<String> files, String fileEdges, double edgeThehard) throws IOException{
+        BufferedWriter writer = new BufferedWriter(new FileWriter(new File(fileEdges)));
+        
+        Map<String, Integer> indexFiles = new HashMap<String, Integer>();
+        
+        ArrayList<ArrayList<Integer>> edges = new ArrayList<ArrayList<Integer>>();
+        
+        int i =0;
+        for(String file : files) {
+        	i++;
+        	indexFiles.put(file, i);
+        }
+
+        files.forEach(d1 -> {
+			files.forEach(d2 -> {
+				if(!d1.equals(d2)) {
+					try {
+						double d = distanceJaccard(index(d1),index(d2));
+						System.out.println("d : " + d);
+						if(distanceJaccard(index(d1),index(d2)) <= edgeThehard){
+							edges.add(new ArrayList<Integer>( 
+						            Arrays.asList(indexFiles.get(d1), indexFiles.get(d2))));
+							writer.write(indexFiles.get(d1) + " " + indexFiles.get(d2) + " " + d + "\n");
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+		});
+        writer.close();
+        writeMap(indexFiles, "fileIndex.txt");
+	}
+
 	
 }
