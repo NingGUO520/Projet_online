@@ -240,7 +240,7 @@ public class Betweeness {
 				Double nb = (Double) e.getValue();
 				String txt = sommet + "		"+nb;
 				sortie.println(txt);
-//				System.out.println("betweeness du sommet "+ sommet +" = " + nb );
+				System.out.println("betweeness du sommet "+ sommet +" = " + nb );
 				
 			}
 			sortie.close();
@@ -256,7 +256,7 @@ public class Betweeness {
 	public static void main(String[] args)  {
 
 		Betweeness b = new Betweeness();
-		String fileName = "test.txt";
+		String fileName = "Test/edges.txt";
 		List<Pair> aretes =  b.lireTexte(fileName);
 		ArrayList<Pair> liens = new ArrayList<Pair>();
 		for(Pair pair: aretes) {
@@ -280,19 +280,6 @@ public class Betweeness {
 		ArrayList<Integer>[][] result = b.calculShortestPaths(size,liens);
 		//		b.calculerBetweeness(result,size);
 		ArrayList<ArrayList<Integer>>[][] chemins = b.transformeChemins(result,  size);
-
-		//		//debug print chemins
-//		for(int i=1;i<size;i++) {
-//			for(int j = i+1;j<size;j++) {
-//				ArrayList<ArrayList<Integer>> r = chemins[i][j];
-//				System.out.print("result ["+ i + "]["+j+"] = {");
-//				for(ArrayList<Integer> x:r) {
-//					System.out.print(x+",");
-//				}
-//				System.out.println("}");
-//
-//			}
-//		}
 		//calculer betweeness
 		HashMap<Integer,Double> mapBetweeness = b.calculerBetweeness(chemins,size);
 		b.printResult(mapBetweeness);

@@ -38,7 +38,7 @@ public class Main {
 	public void init(ArrayList<String> files) throws IOException {
 		int i = 0;
 		
-		List<Integer> range = IntStream.rangeClosed(0, files.size()-1).boxed().collect(Collectors.toList());
+		range = IntStream.rangeClosed(0, files.size()-1).boxed().collect(Collectors.toList());
 		adjacencyList = range.stream().collect(HashMap<Integer, Set<Integer>>::new, 
 				                           (m, c) -> m.put(c, new HashSet<>()),
 				                           (m, u) -> {});
@@ -106,7 +106,6 @@ public class Main {
 			}
 		);
 		System.out.println();
-		List<Integer> range = IntStream.rangeClosed(0, n-1).boxed().collect(Collectors.toList());
 		range.forEach(i->{
 			if(fileName[i].length() > fixed_number)
 				System.out.print(fileName[i].substring(0, fixed_number) + "\t");
@@ -131,16 +130,15 @@ public class Main {
 		System.out.println(".................matJac..................");
 		main.printMatJac(distJac);
 		Graph g = new Graph(main.adjacencyList, edges);
-		g.saveGraph("edgesGraph.edges");
+		g.saveGraph("Test/edgesGraph.edges");
 		
 		PageRank pg = new PageRank();
 		
 		//WITH CONNEX GRAPH
 		double[] page_rank = pg.page_rank(g, 0.1, 10, g.nbNodes()); 
-		
 			
 		System.out.println("---------------PAGE RANK----------------");
-		// main.range.forEach(i->System.out.println(i + " " + main.filesIndex.get(i) + " " +page_rank[i]));
+		main.range.forEach(i->System.out.println(i + " " + main.filesIndex.get(i) + " " +page_rank[i]));
 		System.out.println("----------------------------------------\n");
 	}
 

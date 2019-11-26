@@ -69,7 +69,7 @@ public class Graph {
 	public void saveGraph(String OutputFile) throws IOException {
 		try(BufferedWriter writer = new BufferedWriter(new FileWriter(new File(OutputFile)))) {
 			this.edges.forEach(edge -> {
-		        try { writer.write(edges.get(0)+ " " + edges.get(0) + "\n"); }
+		        try { writer.write(edge.get(0)+ " " + edge.get(1) + "\n");}
 		        catch (IOException ex) { throw new UncheckedIOException(ex); }
 		    });
 		} catch(UncheckedIOException ex) { throw ex.getCause(); }
