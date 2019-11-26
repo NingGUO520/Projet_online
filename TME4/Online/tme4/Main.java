@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
 import java.text.DecimalFormat;
 
 public class Main {
-	private static double edgeThehard = 0.75;
+	private static double edgeThehard = 1.05;
 	private Map<String, Integer> indexFiles = new HashMap<String, Integer>();
 	private Map<Integer, String> filesIndex = new HashMap<Integer, String>();
 	private Map<Integer, Set<Integer>> adjacencyList;
@@ -56,23 +56,18 @@ public class Main {
 	
 	public double[][] matDistJaccard(){
 		double [][] mat = new double[filesIndex.size()][filesIndex.size()];
-		int i = 0, j = 0;
-		for(Entry<Integer,String> file1 : filesIndex.entrySet()) {
-			for(Entry<Integer,String> file2: filesIndex.entrySet()) {
-				if (file1 == file2) {
-					mat[file1.getKey()][file2.getKey()] = 0;
-				}
-				else {
-					
-					mat[file1.getKey()][file2.getKey()] = DistanceJaccard.distanceJaccard(database.get(file1.getValue()), database.get(file2.getValue()));
-				}
-			}
-		}
+		filesIndex.forEach((k1,v1) -> {
+			filesIndex.forEach((k2,v2) -> {
+				if (k1 == k2)
+					mat[k1][k2] = 0;
+				else
+					mat[k1][k2] = DistanceJaccard.distanceJaccard(database.get(v1), database.get(v2));
+			});
+		});
 		return mat;
 	}
 	
 	public ArrayList<ArrayList<Integer>> edges(ArrayList<String> files, double edgeThehard) throws IOException{
-
 		ArrayList<ArrayList<Integer>> edges = new ArrayList<ArrayList<Integer>>();
         files.forEach(d1 -> {
 			files.forEach(d2 -> {
@@ -116,6 +111,7 @@ public class Main {
 		});
 				
 	}
+	
 	public static void main(String[] args) throws IOException{
 		Main main = new Main();
 		ArrayList<String> files = new ArrayList<>();
