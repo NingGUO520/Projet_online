@@ -2,10 +2,12 @@ package tme4;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -110,8 +112,6 @@ public class Betweeness {
 				ArrayList<Integer> l = new ArrayList<Integer>() ;
 				l.add(j);
 				paths[i][j] = l; 
-
-
 			}
 		}
 
@@ -129,7 +129,6 @@ public class Betweeness {
 					m[i][j]= Double.MAX_VALUE;
 			}
 		}
-
 
 		// calculer les plus courts chemins
 		for(int k = 0 ; k< size;k++) {
@@ -182,7 +181,6 @@ public class Betweeness {
 							map.put(noeud, map.get(noeud)+(Double)1.0/l.size());
 						}
 					}
-
 				}
 
 			}
@@ -196,12 +194,7 @@ public class Betweeness {
 			}
 		}
 	
-		for(Entry e : map.entrySet()) {
-			int sommet = (int) e.getKey();
-			Double nb = (Double) e.getValue();
-			System.out.println("betweeness du sommet "+ sommet +" = " + nb );
-		}
-
+	
 		return map;
 	}
 
@@ -237,6 +230,29 @@ public class Betweeness {
 
 
 	}
+	
+	public void printResult(HashMap<Integer,Double> mapBetweeness) {
+		PrintWriter sortie;
+		try {
+			sortie = new PrintWriter("result.txt");
+			for(Entry e : mapBetweeness.entrySet()) {
+				int sommet = (int) e.getKey();
+				Double nb = (Double) e.getValue();
+				String txt = sommet + "		"+nb;
+				sortie.println(txt);
+//				System.out.println("betweeness du sommet "+ sommet +" = " + nb );
+				
+			}
+			sortie.close();
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+	
+
+	}
 	public static void main(String[] args)  {
 
 		Betweeness b = new Betweeness();
@@ -266,19 +282,21 @@ public class Betweeness {
 		ArrayList<ArrayList<Integer>>[][] chemins = b.transformeChemins(result,  size);
 
 		//		//debug print chemins
-		for(int i=1;i<size;i++) {
-			for(int j = i+1;j<size;j++) {
-				ArrayList<ArrayList<Integer>> r = chemins[i][j];
-				System.out.print("result ["+ i + "]["+j+"] = {");
-				for(ArrayList<Integer> x:r) {
-					System.out.print(x+",");
-				}
-				System.out.println("}");
-
-			}
-		}
+//		for(int i=1;i<size;i++) {
+//			for(int j = i+1;j<size;j++) {
+//				ArrayList<ArrayList<Integer>> r = chemins[i][j];
+//				System.out.print("result ["+ i + "]["+j+"] = {");
+//				for(ArrayList<Integer> x:r) {
+//					System.out.print(x+",");
+//				}
+//				System.out.println("}");
+//
+//			}
+//		}
 		//calculer betweeness
 		HashMap<Integer,Double> mapBetweeness = b.calculerBetweeness(chemins,size);
+		b.printResult(mapBetweeness);
+
 	}
 
 
