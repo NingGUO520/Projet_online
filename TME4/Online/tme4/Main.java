@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
 import java.text.DecimalFormat;
 
 public class Main {
-	private static double edgeThehard = 1.05;
+	private static double edgeThehard = 0.75;
 	private Map<String, Integer> indexFiles = new HashMap<String, Integer>();
 	private Map<Integer, String> filesIndex = new HashMap<Integer, String>();
 	private Map<Integer, Set<Integer>> adjacencyList;
@@ -115,11 +115,14 @@ public class Main {
 	public static void main(String[] args) throws IOException{
 		Main main = new Main();
 		ArrayList<String> files = new ArrayList<>();
-		files.add("Test/S.txt");
-		files.add("Test/U.txt");
-		files.add("Test/V.txt");
-		files.add("Test/w.txt");
-		
+//		files.add("Test/S.txt");
+//		files.add("Test/U.txt");
+//		files.add("Test/V.txt");
+//		files.add("Test/w.txt");
+		for(int i = 0; i<10;i++) {
+			files.add("Test/test"+i+".txt");
+		}
+//		
 		main.init(files);
 		ArrayList<ArrayList<Integer>> edges = main.edges(files, edgeThehard);
 		double [][] distJac = main.matDistJaccard();
@@ -138,23 +141,31 @@ public class Main {
 		System.out.println("----------------------------------------\n");
 		
 		
+//		for(int i = 0; i <4;i++) {
+//			for(int j = 0; j<4;j++) {
+//				System.out.print("distJac["+i+"]["+j+"]"+distJac[i][j]+"	");
+//			}
+//			System.out.println();
+//		}
+
 		//Calculer le betweenness 
-//		Betweeness b = new Betweeness();
-//		for(int i = 0; i <4;i++)
-//			for(int j = 0; j<4;j++)
-//		System.out.println(distJac[i][j]);
-//		int size = distJac.length;
-//		ArrayList<Integer>[][] result = b.calculCourtsChemins(size,distJac);
+		Betweeness b = new Betweeness();
+		int size = distJac.length;
+		ArrayList<Integer>[][] result = b.calculCourtsChemins(size,distJac,edgeThehard);
+		
 //		
-//		for(int i = 0; i <4;i++)
-//			for(int j = 0; j<4;j++)
+//		for(int i = 0; i < size;i++)
+//			for(int j = 0; j< size;j++)
 //		System.out.println("result ["+i+"]["+j+"] = "+result[i][j]);
-//	
-//		ArrayList<ArrayList<Integer>>[][] chemins = b.transformeChemins(result,  size);
+	
+		ArrayList<ArrayList<Integer>>[][] chemins = b.transformeChemins(result,  size);
 //
-//		
-//		HashMap<Integer,Double> mapBetweeness = b.calculerBetweeness(chemins,size);
-//		b.printResult(mapBetweeness);
+//		for(int i = 0; i < size;i++)
+//		for(int j = 0; j< size;j++)
+//	System.out.println("chemins ["+i+"]["+j+"] = "+chemins[i][j]);
+		HashMap<Integer,Double> mapBetweeness = b.calculerBetweeness(chemins,size);
+		b.printResult(mapBetweeness);
+////		b.printResultDistribution(mapBetweeness);
 	}
 
 }
