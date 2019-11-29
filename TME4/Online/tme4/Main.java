@@ -136,6 +136,25 @@ public class Main {
 		System.out.println("---------------PAGE RANK----------------");
 		main.range.forEach(i->System.out.println(i + " " + main.filesIndex.get(i) + " " +page_rank[i]));
 		System.out.println("----------------------------------------\n");
+		
+		
+		//Calculer le betweenness 
+//		Betweeness b = new Betweeness();
+//		for(int i = 0; i <4;i++)
+//			for(int j = 0; j<4;j++)
+//		System.out.println(distJac[i][j]);
+//		int size = distJac.length;
+//		ArrayList<Integer>[][] result = b.calculCourtsChemins(size,distJac);
+//		
+//		for(int i = 0; i <4;i++)
+//			for(int j = 0; j<4;j++)
+//		System.out.println("result ["+i+"]["+j+"] = "+result[i][j]);
+//	
+//		ArrayList<ArrayList<Integer>>[][] chemins = b.transformeChemins(result,  size);
+//
+//		
+//		HashMap<Integer,Double> mapBetweeness = b.calculerBetweeness(chemins,size);
+//		b.printResult(mapBetweeness);
 	}
 
 }
