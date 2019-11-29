@@ -1,37 +1,37 @@
 package tme4;
 
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class DistanceJaccard {
 
-	public static double distanceJaccard(Map<String, Long> D1, Map<String, Long> D2) {
+	public static double distanceJaccard(Map<String, Integer> D1, Map<String, Integer> D2) {
 		double intersection = 0.0;
 		double unionD1D2 = 0.0;
-
-		intersection = D1.keySet().stream().collect(Collectors.toList()).stream().
-				map(k -> D2.get(k) != null ? Math.max(D1.get(k), D2.get(k)) - Math.min(D1.get(k), D2.get(k)) : D1.get(k)).
-				collect(Collectors.toList()).stream().
-				mapToLong(Long::longValue).
-				sum() + 
-				D2.keySet().stream().
-				filter(k -> !D1.containsKey(k)).collect(Collectors.toList()).stream().
-				map(k -> D2.get(k)).collect(Collectors.toList()).stream().
-				mapToLong(Long::longValue).
-				sum();
-
-		unionD1D2 = D1.keySet().stream().collect(Collectors.toList()).stream().
-				map(p -> D2.get(p) != null ? Math.max(D1.get(p), D2.get(p)) : D1.get(p)).collect(Collectors.toList()).stream().
-				mapToLong(Long::longValue).
-				sum() + 
-				D2.keySet().stream().
-				filter(p -> !D1.containsKey(p)).collect(Collectors.toList()).stream().
-				map(p -> D2.get(p)).collect(Collectors.toList()).stream().
-				mapToLong(Long::longValue).
-				sum();
+		List<String> union = Stream.concat(D1.keySet().stream(), D2.keySet().stream()).distinct().collect(Collectors.toList());
 		
+		intersection = union.stream().
+				map(m -> (D1.get(m) != null && D2.get(m) != null) ? 
+						Math.max(D1.get(m), D2.get(m)) - Math.min(D1.get(m), D2.get(m)) : 
+							D1.get(m) != null? D1.get(m) : D2.get(m)).
+				collect(Collectors.toList()).stream().
+				mapToInt(Integer::intValue).
+				sum();
+				
+		unionD1D2 = union.stream().
+				map(m -> (D1.get(m) != null && D2.get(m) != null) ? 
+						Math.max(D1.get(m), D2.get(m)) : 
+							D1.get(m) != null? D1.get(m) : D2.get(m)).
+				collect(Collectors.toList()).stream().
+				mapToInt(Integer::intValue).
+				sum();
+
 		double result = (unionD1D2 == 0 ? 1.0 : intersection / unionD1D2);
-		return result;
+		return result;		
 	}
+	
+	
 	
 }

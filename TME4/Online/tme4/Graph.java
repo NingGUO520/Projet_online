@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 public class Graph {
 	public Map<Integer, Set<Integer>> adjacencyList; 
 	public Map<String, Integer> indexFiles;
-    public ArrayList<ArrayList<Integer>> edges;
+    public Set<ArrayList<Integer>> edges;
     public double edgeThreshold = 0.75;
     
     public Graph(List<String> files) {
@@ -31,17 +31,24 @@ public class Graph {
         	indexFiles.put(file, ++i);
         }
 	}
+    
+    public Graph(int n) {
+    	adjacencyList = IntStream.rangeClosed(0, n-1).boxed().collect(Collectors.toList()).stream().collect(HashMap<Integer, Set<Integer>>::new, 
+				                           (m, c) -> m.put(c, new HashSet<>()),
+				                           (m, u) -> {});
+		
+    }
 
-	public Graph(Map<Integer, Set<Integer>> adjacencyList, ArrayList<ArrayList<Integer>> edges) {
+	public Graph(Map<Integer, Set<Integer>> adjacencyList, Set<ArrayList<Integer>> edges) {
 		this.adjacencyList = adjacencyList;
 		this.edges = edges;
 	}
 	
-    public void setEdges(ArrayList<ArrayList<Integer>> edges) {
+    public void setEdges(Set<ArrayList<Integer>> edges) {
     	this.edges = edges;    	
     }
     
-    public ArrayList<ArrayList<Integer>> getEdges() {
+    public Set<ArrayList<Integer>> getEdges() {
     	return edges;
     }
     
@@ -49,11 +56,6 @@ public class Graph {
     	return indexFiles;
     }
 	
-	public void addEdge(int u, int v) {
-		adjacencyList.get(u).add(v);
-		adjacencyList.get(v).add(u);
-	}
-
 	public int degree(int u) {
 		return adjacencyList.get(u).size();
 	}
@@ -66,10 +68,27 @@ public class Graph {
 		return adjacencyList.size();
 	}
 
+	public void addEdge(int u, int v) {
+		adjacencyList.get(u).add(v);
+		adjacencyList.get(v).add(u);
+	}
+	
+	public Graph getMatGraph(double edgeThreshold, double[][] mat) {
+		int n = mat.length;
+		Graph graph = new Graph(n);
+		IntStream.rangeClosed(0, n-1).forEach(i->{IntStream.rangeClosed(i+1, n-1).forEach(j->{
+				if(i!=j && mat[i][j] <= edgeThreshold)
+					graph.addEdge(i, j);});
+		});		
+		graph.edgeThreshold = edgeThreshold;
+		return graph;
+	}
+	
 	public void saveGraph(String OutputFile) throws IOException {
 		try(BufferedWriter writer = new BufferedWriter(new FileWriter(new File(OutputFile)))) {
 			this.edges.forEach(edge -> {
-		        try { writer.write(edge.get(0)+ " " + edge.get(1) + "\n");}
+		        try {
+		        	writer.write(edge.get(0)+ " " + edge.get(1) + "\n");}
 		        catch (IOException ex) { throw new UncheckedIOException(ex); }
 		    });
 		} catch(UncheckedIOException ex) { throw ex.getCause(); }

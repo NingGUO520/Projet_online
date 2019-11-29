@@ -1,6 +1,5 @@
 package tme4;
 
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -11,7 +10,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.io.*;
 
-public class Jaccard {
+public class Closeness {
 	
 	public static Map<String, Double> closenessCentrality(ArrayList<String> files) throws IOException{
 		Map<String, Double> CCFiles = new HashMap<String, Double>();
