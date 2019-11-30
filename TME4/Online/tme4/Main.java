@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -69,12 +70,11 @@ public class Main {
 		
 	}*/
 	
-	public ArrayList<String> initDataBase() throws MalformedURLException {
+	public void initDataBase(ArrayList<String> files) throws MalformedURLException {
 		System.out.println("initialisation DataBase...");
 
-		ArrayList<String> files = new ArrayList<>();
 		LireFile l = new LireFile();
-		database = l.getDatabase(50);
+		database = l.getDatabase(files);
 		int i = 0;
 		for(String file :database.keySet() ) {
 			files.add(file);
@@ -93,7 +93,6 @@ public class Main {
 				                           (m, u) -> {});
 		
 		
-		return files;
 	}
 	
 	public double[][] matDistJaccard(){
@@ -218,15 +217,15 @@ public class Main {
 		} catch(UncheckedIOException ex) { throw ex.getCause(); }
 	}
 	
-	public static void main(String[] args) throws IOException{	
+	public static void main0(String[] args) throws IOException{	
 		ArrayList<String> files = buildDataBase("books/");
 		System.out.println("files : " + files);
 		saveResutlList("Results/ListBooks", files);
 	}
 	
-	public static void main0(String[] args) throws IOException{
+	public static void main(String[] args) throws IOException{
 		Main main = new Main();
-//		ArrayList<String> files = new ArrayList<>();
+		ArrayList<String> files = main.getFiles();
 				
 		//Set<ArrayList<Integer>> edges = main.edges(files, edgeThehard);
 		/*files.add("Test/S.txt");
@@ -239,30 +238,33 @@ public class Main {
 //		}
 //		files = buildDataBase("./livres");
 
-		ArrayList<String> files = main.initDataBase();
+		
+		
+		
+		 main.initDataBase(files);
 		// main.init(files);
 
-		Set<ArrayList<Integer>> edges = main.edges(files, edgeThehard);
+//		Set<ArrayList<Integer>> edges = main.edges(files, edgeThehard);
 
 		double [][] distJac = main.matDistJaccard();
 		System.out.println(".................matJac..................");
 		main.printMatJac(distJac);
-		Graph g = new Graph(main.adjacencyList, edges);
-		g.saveGraph("Test/edgesGraph.edges");
-		
-
-		System.out.println("---------------PAGE RANK----------------");
-		PageRank pg = new PageRank();
-		double[] page_rank = pg.page_rank(g, 0.1, 10, g.nbNodes()); 
-		HashMap<Integer, Double> mapPR = new HashMap<Integer, Double>();
-		
-		for(int i = 0; i < page_rank.length; i++)
-			mapPR.put(i, page_rank[i]);
-
-		Map<Integer,Double> topPR = main.getTop10(mapPR, main.nbTOP);
-		main.printResutl(topPR);
-		main.saveResutl("Results/ResultPageRank.result", topPR);
-		System.out.println("-------------------Fin PR----------------------");
+//		Graph g = new Graph(main.adjacencyList, edges);
+//		g.saveGraph("Test/edgesGraph.edges");
+//		
+//
+//		System.out.println("---------------PAGE RANK----------------");
+//		PageRank pg = new PageRank();
+//		double[] page_rank = pg.page_rank(g, 0.1, 10, g.nbNodes()); 
+//		HashMap<Integer, Double> mapPR = new HashMap<Integer, Double>();
+//		
+//		for(int i = 0; i < page_rank.length; i++)
+//			mapPR.put(i, page_rank[i]);
+//
+//		Map<Integer,Double> topPR = main.getTop10(mapPR, main.nbTOP);
+//		main.printResutl(topPR);
+//		main.saveResutl("Results/ResultPageRank.result", topPR);
+//		System.out.println("-------------------Fin PR----------------------");
 
 		System.out.println("----------------- Betweeness ------------------");
 		Betweeness b = new Betweeness();
@@ -290,6 +292,22 @@ public class Main {
 		System.out.println("-------------------Fin Cl---------------------\n");
 	}
 	
+	public  ArrayList<String> getFiles(){
+		 ArrayList<String> files = new  ArrayList<String>();
+		 try (FileReader reader = new FileReader("Results/ListBooks");
+	             BufferedReader br = new BufferedReader(reader)) {
+
+	            // read line by line
+	            String line;
+	            while ((line = br.readLine()) != null) {
+	            	files.add(line);
+	            }
+
+	        } catch (IOException e) {
+	            System.err.format("IOException: %s%n", e);
+	        }
+		 return files;
+	}
 
 	public static ArrayList<String> buildDataBase(String nameDir) throws IOException {
 		File dir = new File(nameDir);

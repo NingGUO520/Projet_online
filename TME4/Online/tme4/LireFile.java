@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -12,20 +13,36 @@ import java.util.Scanner;
 public class LireFile {
 
 
-	public Map<String, Map<String,Integer>> getDatabase(int nbLivres) throws MalformedURLException {
+	public Map<String, Map<String,Integer>> getDatabase(ArrayList<String> files) throws MalformedURLException {
 		// pour chaque livre : les mots avec leurs occurences
 		Map<String, Map<String,Integer>> database = new HashMap<>();
-		for(int i = 8;i<8+nbLivres;i++) {
-			String nomLivre;
-			if(i<10) {
-			 nomLivre = "1000"+i;
+		for(int a = 0 ;a < 100;a++) {
+			String nomLivre = files.get(a);
+			//recupere le prefix du nom de fichier 
+			int i = 0;
+			char c = nomLivre.charAt(i);
+			while(Character.isDigit(c)) {
+
+				i++;
+				c = nomLivre.charAt(i);
+			}
+			
+			String prefix;
+			if(i>5) {
+				prefix = nomLivre.substring(0,5);
 			}else {
-				 nomLivre = "100"+i;
+
+				prefix= nomLivre.substring(0,i);
+			}
+			if(!nomLivre.endsWith("txt")) {
+				nomLivre = nomLivre.substring(0, nomLivre.length() - 6);
+
 			}
 			// On stocke le mot et son occurence 
 			Map<String, Integer> livre = new HashMap<String, Integer>();
 			String titre = "";
-			URL oracle = new URL("http://www.gutenberg.org/files/"+nomLivre+"/"+nomLivre+".txt");
+			System.out.println("nomLivre : "+ nomLivre);
+			URL oracle = new URL("http://www.gutenberg.org/files/"+prefix+"/"+nomLivre);
 			BufferedReader in;
 			try {
 				in = new BufferedReader(
@@ -33,8 +50,8 @@ public class LireFile {
 				String inputLine;
 				while ((inputLine = in.readLine()) != null) {
 					if(inputLine.startsWith("Title:")) {
-						 titre =  inputLine.substring(6);
-						
+						titre =  inputLine.substring(6);
+
 					}
 					String[] words = inputLine.split("\\s+");
 					for (int k = 0; k < words.length; k++) {
@@ -66,8 +83,6 @@ public class LireFile {
 
 	public static void main(String[] args) throws MalformedURLException {
 
-		LireFile l = new LireFile();
-		l.getDatabase(50);
 
 	}
 }
