@@ -40,6 +40,7 @@ public class Graph {
 
 	public Graph(Map<Integer, Set<Integer>> adjacencyList) {
 		this.adjacencyList = adjacencyList;
+		System.out.println("this.adjacencyList : " + this.adjacencyList);
 	}
 	
 	public Map<String, Integer> getIndexFiles(){

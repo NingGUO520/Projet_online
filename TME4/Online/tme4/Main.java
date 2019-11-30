@@ -30,8 +30,8 @@ public class Main {
 	private Map<Integer, Set<Integer>> adjacencyList;
 	final DecimalFormat df = new DecimalFormat("#0.000");
 	private List<Integer> range; 
-	final int nbTOP = 5;
-	final int nbFILE = 5;
+	final int nbTOP = 15;
+	final int nbFILE = 70;
 
 	// pour chaque livre : les mots avec leurs occurences
 	private Map<String, Map<String,Integer>> database = new HashMap<String, Map<String,Integer>>();
@@ -54,7 +54,7 @@ public class Main {
 	
 	public void init(ArrayList<String> files) throws IOException {
 		int i = 0;
-		
+		System.out.println("files.size() : " + files.size());
 		range = IntStream.rangeClosed(0, files.size()-1).boxed().collect(Collectors.toList());
 		adjacencyList = range.stream().collect(HashMap<Integer, Set<Integer>>::new, 
 				                           (m, c) -> m.put(c, new HashSet<>()),
@@ -126,6 +126,7 @@ public class Main {
 		System.out.print("\t");
 		int fixed_number = 6;
 		Arrays.stream(fileName).forEach(f->{
+			f = f.replace("Test/", "");
 			if(f.length() > fixed_number) System.out.print(f.substring(0, fixed_number) + "\t");
 			else System.out.print(f + "\t");
 			}
@@ -133,10 +134,11 @@ public class Main {
 		System.out.println();
 		
 		Stream.of(fileName).forEach(i->{
-			if(i.length() > fixed_number)
-				System.out.print(i.substring(0, fixed_number) + "\t");
+			String ii = i.replace("Test/", "");
+			if(ii.length() > fixed_number)
+				System.out.print(ii.substring(0, fixed_number) + "\t");
 			else 
-				System.out.print(i + "\t");
+				System.out.print(ii + "\t");
 			range.forEach(j->System.out.print(df.format(mat[indexFiles.get(i)][j]) + "\t"));
 			System.out.println();
 		});
@@ -209,16 +211,19 @@ public class Main {
 	public static void main(String[] args) throws IOException{
 		Main main = new Main();
 		Instant start, finish;
-//		ArrayList<String> files = main.getFiles();
-						
-//		for(int id = 0; id<10;id++) {
-//			files.add("Test/test"+id+".txt");
-//		}
+
+		ArrayList<String> files = main.getFiles();
+		//ArrayList<String> files = new ArrayList<String>();
 		
-//		files = buildDataBase("./livres");		
+		/*for(int id = 0; id<10;id++) {
+			files.add("Test/test"+id+".txt");
+		}*/
 		
-		ArrayList<String> files = main.initDataBase();
+		// files = buildDataBase("./livres");		
+		
+		main.initDataBase();
 		// main.init(files);
+		System.out.println("nbfile : " + files.size());
 
 		start = Instant.now();
 		double [][] distJac = main.matDistJaccard();
