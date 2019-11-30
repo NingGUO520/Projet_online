@@ -10,6 +10,7 @@ import java.util.Set;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.text.DecimalFormat;
@@ -58,6 +59,33 @@ public class Main {
 		System.out.println("Database contains following files");
 		System.out.println(database.keySet());
 		
+	}
+	
+	public ArrayList<String> initDataBase() throws MalformedURLException {
+		System.out.println("initialisation DataBase...");
+
+		ArrayList<String> files = new ArrayList<>();
+		LireFile l = new LireFile();
+		database = l.getDatabase(50);
+		int i = 0;
+		for(String file :database.keySet() ) {
+			files.add(file);
+			indexFiles.put(file, i);
+        	filesIndex.put(i, file);
+        	i++;
+		}
+		System.out.println("Initialisation reussi ! ");
+
+		System.out.println("Database contains following files");
+		System.out.println(database.keySet());
+		
+		range = IntStream.rangeClosed(0, files.size()-1).boxed().collect(Collectors.toList());
+		adjacencyList = range.stream().collect(HashMap<Integer, Set<Integer>>::new, 
+				                           (m, c) -> m.put(c, new HashSet<>()),
+				                           (m, u) -> {});
+		
+		
+		return files;
 	}
 	
 	public double[][] matDistJaccard(){
@@ -120,7 +148,7 @@ public class Main {
 				
 	}
 
-	public static void main(String[] args) throws IOException{
+	public static void main2(String[] args) throws IOException{
 		Main main = new Main();
 		ArrayList<String> files = new ArrayList<>();
 //		files.add("Test/S.txt");
@@ -152,20 +180,21 @@ public class Main {
 		System.out.println("closenessResult  : " + closenessResult);
 	}
 	
-	public static void main1(String[] args) throws IOException{
+	public static void main(String[] args) throws IOException{
 		Main main = new Main();
-		ArrayList<String> files = new ArrayList<>();
+//		ArrayList<String> files = new ArrayList<>();
 		
 		/*files.add("Test/S.txt");
 		files.add("Test/U.txt");
 		files.add("Test/V.txt");
 		files.add("Test/w.txt");*/
 		
-		for(int id = 0; id<10;id++) {
-			files.add("Test/test"+id+".txt");
-		}
-		
-		main.init(files);
+//		for(int id = 0; id<10;id++) {
+//			files.add("Test/test"+id+".txt");
+//		}
+//		
+//		main.init(files);
+		ArrayList<String> files = main.initDataBase();
 		Set<ArrayList<Integer>> edges = main.edges(files, edgeThehard);
 		double [][] distJac = main.matDistJaccard();
 		System.out.println(".................matJac..................");
@@ -174,7 +203,7 @@ public class Main {
 		g.saveGraph("Test/edgesGraph.edges");
 		
 		PageRank pg = new PageRank();
-		
+//		
 		//WITH CONNEX GRAPH
 		double[] page_rank = pg.page_rank(g, 0.1, 10, g.nbNodes()); 
 			
@@ -183,22 +212,12 @@ public class Main {
 		System.out.println("----------------------------------------\n");
 		
 		
-//		for(int i = 0; i <4;i++) {
-//			for(int j = 0; j<4;j++) {
-//				System.out.print("distJac["+i+"]["+j+"]"+distJac[i][j]+"	");
-//			}
-//			System.out.println();
-//		}
-
 		//Calculer le betweenness 
 		Betweeness b = new Betweeness();
 		int size = distJac.length;
 		ArrayList<Integer>[][] result = b.calculCourtsChemins(size,distJac,edgeThehard);
 		
-//		
-//		for(int i = 0; i < size;i++)
-//			for(int j = 0; j< size;j++)
-//		System.out.println("result ["+i+"]["+j+"] = "+result[i][j]);
+//	tem.out.println("result ["+i+"]["+j+"] = "+result[i][j]);
 	
 		ArrayList<ArrayList<Integer>>[][] chemins = b.transformeChemins(result,  size);
 //
