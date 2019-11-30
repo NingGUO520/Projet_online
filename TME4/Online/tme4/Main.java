@@ -31,7 +31,7 @@ public class Main {
 	final DecimalFormat df = new DecimalFormat("#0.000");
 	private List<Integer> range; 
 	final int nbTOP = 5;
-	final int nbFILE = 50;
+	final int nbFILE = 5;
 
 	// pour chaque livre : les mots avec leurs occurences
 	private Map<String, Map<String,Integer>> database = new HashMap<String, Map<String,Integer>>();
@@ -111,9 +111,11 @@ public class Main {
 	}
 	
 	public void setAdjacencyList(ArrayList<String> files, double [][] distJac, double edgeThehard) throws IOException{
-		range.forEach(i->{range.forEach(j->{if(i!=j) {if(distJac[i][j]<edgeThehard)
-						adjacencyList.get(i).add(j);
-						adjacencyList.get(j).add(i);}}); 
+		range.forEach(i->{range.forEach(j->{if(i!=j) {
+			if(distJac[i][j]<edgeThehard) {
+				adjacencyList.get(i).add(j);
+				adjacencyList.get(j).add(i);
+			}}}); 
 		});
 	}
 
@@ -227,27 +229,27 @@ public class Main {
 		System.out.println(".................matJac..................");
 		main.printMatJac(distJac);
 		
-//		System.out.println("---------------PAGE RANK----------------");
-//		start = Instant.now();
-//		main.setAdjacencyList(files, distJac, edgeThehard);
-//		Graph g = new Graph(main.adjacencyList);
-//		
-//		PageRank pg = new PageRank();
-//		double[] page_rank = pg.page_rank(g, 0.1, 10, g.nbNodes()); 
-//		HashMap<Integer, Double> mapPR = new HashMap<Integer, Double>();
-//		
-//		for(int i = 0; i < page_rank.length; i++)
-//			mapPR.put(i, page_rank[i]);
-//
-//		Map<Integer,Double> topPR = main.getTop10(mapPR, main.nbTOP);
-//		main.printResutl(topPR);
-//		main.saveResutl("Results/ResultPageRank.result", topPR);
-//		finish = Instant.now();
-//		long timePR = Duration.between(start, finish).toMillis(); // milliseconds 
-//		System.out.println("timeElapsed : " + timePR);
-//		System.out.println("-------------------Fin PR----------------------");
-//		
-//		g.saveGraph("Results/edgesGraph.edges");
+		System.out.println("---------------PAGE RANK----------------");
+		start = Instant.now();
+		main.setAdjacencyList(files, distJac, edgeThehard);
+		Graph g = new Graph(main.adjacencyList);
+		
+		PageRank pg = new PageRank();
+		double[] page_rank = pg.page_rank(g, 0.1, 10, g.nbNodes()); 
+		HashMap<Integer, Double> mapPR = new HashMap<Integer, Double>();
+		
+		for(int i = 0; i < page_rank.length; i++)
+			mapPR.put(i, page_rank[i]);
+
+		Map<Integer,Double> topPR = main.getTop10(mapPR, main.nbTOP);
+		main.printResutl(topPR);
+		main.saveResutl("Results/ResultPageRank.result", topPR);
+		finish = Instant.now();
+		long timePR = Duration.between(start, finish).toMillis(); // milliseconds 
+		System.out.println("timeElapsed : " + timePR);
+		System.out.println("-------------------Fin PR----------------------");
+		
+		g.saveGraph("Results/edgesGraph.edges");
 
 		System.out.println("----------------- Betweeness ------------------");
 		start = Instant.now();
