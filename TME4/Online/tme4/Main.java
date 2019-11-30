@@ -19,18 +19,19 @@ import java.io.UncheckedIOException;
 import java.net.MalformedURLException;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import java.text.DecimalFormat;
 import java.time.*;
 
 public class Main {
-	private static double edgeThehard = 1.75;
+	private static double edgeThehard = 0.75;
 	private Map<String, Integer> indexFiles = new HashMap<String, Integer>();
 	private Map<Integer, String> filesIndex = new HashMap<Integer, String>();
 	private Map<Integer, Set<Integer>> adjacencyList;
 	final DecimalFormat df = new DecimalFormat("#0.000");
 	private List<Integer> range; 
 	final int nbTOP = 5;
-	final int nbFILE = 50;
+	final int nbFILE = 5;
 
 	// pour chaque livre : les mots avec leurs occurences
 	private Map<String, Map<String,Integer>> database = new HashMap<String, Map<String,Integer>>();
@@ -74,7 +75,7 @@ public class Main {
 		System.out.println("initialisation DataBase...");
 
 		LireFile l = new LireFile();
-		database = l.getDatabase(files);
+		database = l.getDatabase(files, nbFILE);
 		int i = 0;
 		for(String file :database.keySet() ) {
 			files.add(file);
@@ -87,7 +88,7 @@ public class Main {
 		System.out.println("Database contains following files");
 		System.out.println(database.keySet());
 		
-		range = IntStream.rangeClosed(0, files.size()-1).boxed().collect(Collectors.toList());
+		range = IntStream.rangeClosed(0, i-1).boxed().collect(Collectors.toList());
 		adjacencyList = range.stream().collect(HashMap<Integer, Set<Integer>>::new, 
 				                           (m, c) -> m.put(c, new HashSet<>()),
 				                           (m, u) -> {});
@@ -127,14 +128,16 @@ public class Main {
 			}
 		);
 		System.out.println();
-		range.forEach(i->{
-			if(fileName[i].length() > fixed_number)
-				System.out.print(fileName[i].substring(0, fixed_number) + "\t");
+		
+		Stream.of(fileName).forEach(i->{
+			if(i.length() > fixed_number)
+				System.out.print(i.substring(0, fixed_number) + "\t");
 			else 
-				System.out.print(fileName[i] + "\t");
-			range.forEach(j->System.out.print(df.format(mat[i][j]) + "\t"));
+				System.out.print(i + "\t");
+			range.forEach(j->System.out.print(df.format(mat[indexFiles.get(i)][j]) + "\t"));
 			System.out.println();
 		});
+		
 				
 	}
 
@@ -208,16 +211,18 @@ public class Main {
 //		for(int id = 0; id<10;id++) {
 //			files.add("Test/test"+id+".txt");
 //		}
+		
 		files = buildDataBase("./livres");		
 		
-		// main.initDataBase(files);
-		main.init(files);
+		main.initDataBase(files);
+		// main.init(files);
 
 		start = Instant.now();
 		double [][] distJac = main.matDistJaccard();
 		finish = Instant.now();
 		long timeDistJac  = Duration.between(start, finish).toMillis(); // milliseconds
 		System.out.println("timeDistJac : " + timeDistJac);
+		
 		System.out.println(".................matJac..................");
 		main.printMatJac(distJac);
 		
@@ -234,8 +239,8 @@ public class Main {
 			mapPR.put(i, page_rank[i]);
 
 		Map<Integer,Double> topPR = main.getTop10(mapPR, main.nbTOP);
-		// main.printResutl(topPR);
-		// main.saveResutl("Results/ResultPageRank.result", topPR);
+		main.printResutl(topPR);
+		main.saveResutl("Results/ResultPageRank.result", topPR);
 		finish = Instant.now();
 		long timePR = Duration.between(start, finish).toMillis(); // milliseconds 
 		System.out.println("timeElapsed : " + timePR);
@@ -253,8 +258,8 @@ public class Main {
 		Map<Integer,Double> mapBetweeness = b.calculerBetweeness(chemins,size);
 		Map<Integer,Double> topBt = main.getTop10(mapBetweeness, main.nbTOP);
 		
-		// main.printResutl(topBt);
-		// main.saveResutl("Results/ResultBetweeness.result", topBt);
+		main.printResutl(topBt);
+		main.saveResutl("Results/ResultBetweeness.result", topBt);
 		finish = Instant.now();
 		long timeBt = Duration.between(start, finish).toMillis();
 		System.out.println("timeElapsed : " + timeBt);
@@ -268,8 +273,8 @@ public class Main {
 		
 		// closeness.printResult(mapCloseness);
 		Map<Integer,Double> topCl = main.getTop10(mapCloseness, main.nbTOP);
-		// main.printResutl(topCl);
-		// main.saveResutl("Results/ResultCloseness.result", topCl);
+		main.printResutl(topCl);
+		main.saveResutl("Results/ResultCloseness.result", topCl);
 		finish = Instant.now();		
 		long timeCl = Duration.between(start, finish).toMillis();
 		System.out.println("timeElapsed : " + timeCl);

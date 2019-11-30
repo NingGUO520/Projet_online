@@ -13,10 +13,10 @@ import java.util.Scanner;
 public class LireFile {
 
 
-	public Map<String, Map<String,Integer>> getDatabase(ArrayList<String> files) throws MalformedURLException {
+	public Map<String, Map<String,Integer>> getDatabase(ArrayList<String> files, int nbfile) throws MalformedURLException {
 		// pour chaque livre : les mots avec leurs occurences
 		Map<String, Map<String,Integer>> database = new HashMap<>();
-		for(int a = 0 ;a < 100;a++) {
+		for(int a = 0 ;a < nbfile;a++) {
 			String nomLivre = files.get(a);
 			//recupere le prefix du nom de fichier 
 			int i = 0;
