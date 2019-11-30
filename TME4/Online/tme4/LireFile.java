@@ -1,6 +1,7 @@
 package tme4;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
@@ -13,36 +14,25 @@ import java.util.Scanner;
 public class LireFile {
 
 
-	public Map<String, Map<String,Integer>> getDatabase(ArrayList<String> files, int nbfile) throws MalformedURLException {
+	public Map<String, Map<String,Integer>> getDatabase( int nbfile) throws MalformedURLException {
 		// pour chaque livre : les mots avec leurs occurences
 		Map<String, Map<String,Integer>> database = new HashMap<>();
-		for(int a = 0 ;a < nbfile;a++) {
-			String nomLivre = files.get(a);
-			//recupere le prefix du nom de fichier 
-			int i = 0;
-			char c = nomLivre.charAt(i);
-			while(Character.isDigit(c)) {
-
-				i++;
-				c = nomLivre.charAt(i);
-			}
-			
-			String prefix;
-			if(i>5) {
-				prefix = nomLivre.substring(0,5);
+		int i = 0;
+		while(database.size()<nbfile) {
+			String nomLivre;
+			if(i<10) {
+				nomLivre = "1000"+i;
+			}else if(i<100) {
+				nomLivre = "100"+i;
+			}else if(i<1000) {
+				nomLivre = "10"+i;
 			}else {
-
-				prefix= nomLivre.substring(0,i);
-			}
-			if(!nomLivre.endsWith("txt")) {
-				nomLivre = nomLivre.substring(0, nomLivre.length() - 6);
-
+				nomLivre = "1"+i;
 			}
 			// On stocke le mot et son occurence 
 			Map<String, Integer> livre = new HashMap<String, Integer>();
 			String titre = "";
-			System.out.println("nomLivre : "+ nomLivre);
-			URL oracle = new URL("http://www.gutenberg.org/files/"+prefix+"/"+nomLivre);
+			URL oracle = new URL("http://www.gutenberg.org/files/"+nomLivre+"/"+nomLivre+".txt");
 			BufferedReader in;
 			try {
 				in = new BufferedReader(
@@ -56,7 +46,6 @@ public class LireFile {
 					String[] words = inputLine.split("\\s+");
 					for (int k = 0; k < words.length; k++) {
 						words[k] = words[k].replaceAll("[^\\w]", "");
-						//						System.out.print(words[k]+"|");
 						if(words[k]!="") {
 							if(!livre.containsKey(words[k])) {
 								livre.put( words[k], 1);
@@ -67,12 +56,16 @@ public class LireFile {
 					}
 				}
 				in.close();
+			} catch (FileNotFoundException e) {
+				System.out.println("files/"+nomLivre+"/"+nomLivre+".txt no found, passer a livre suivant" );
 			} catch (IOException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
-			System.out.println("nombre de mot = "+ livre.size()+" pour livre <<"+ titre +">");
+			System.out.println("nombre de mot distincts = "+ livre.size()+" pour livre <<"+ titre +">>");
 			database.put(titre, livre);
+			i++;
 		}
 
 		System.out.println("Il y a "+ database.size()+"livres dans cette database");

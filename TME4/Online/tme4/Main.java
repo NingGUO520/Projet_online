@@ -31,7 +31,7 @@ public class Main {
 	final DecimalFormat df = new DecimalFormat("#0.000");
 	private List<Integer> range; 
 	final int nbTOP = 5;
-	final int nbFILE = 5;
+	final int nbFILE = 50;
 
 	// pour chaque livre : les mots avec leurs occurences
 	private Map<String, Map<String,Integer>> database = new HashMap<String, Map<String,Integer>>();
@@ -71,11 +71,12 @@ public class Main {
 		
 	}
 	
-	public void initDataBase(ArrayList<String> files) throws MalformedURLException {
+	public ArrayList<String> initDataBase() throws MalformedURLException {
+		ArrayList<String> files = new ArrayList<String>();
 		System.out.println("initialisation DataBase...");
 
 		LireFile l = new LireFile();
-		database = l.getDatabase(files, nbFILE);
+		database = l.getDatabase(nbFILE);
 		int i = 0;
 		for(String file :database.keySet() ) {
 			files.add(file);
@@ -93,7 +94,7 @@ public class Main {
 				                           (m, c) -> m.put(c, new HashSet<>()),
 				                           (m, u) -> {});
 		
-		
+		return files;
 	}
 	
 	public double[][] matDistJaccard(){
@@ -206,15 +207,15 @@ public class Main {
 	public static void main(String[] args) throws IOException{
 		Main main = new Main();
 		Instant start, finish;
-		ArrayList<String> files = main.getFiles();
+//		ArrayList<String> files = main.getFiles();
 						
 //		for(int id = 0; id<10;id++) {
 //			files.add("Test/test"+id+".txt");
 //		}
 		
-		files = buildDataBase("./livres");		
+//		files = buildDataBase("./livres");		
 		
-		main.initDataBase(files);
+		ArrayList<String> files = main.initDataBase();
 		// main.init(files);
 
 		start = Instant.now();
@@ -226,27 +227,27 @@ public class Main {
 		System.out.println(".................matJac..................");
 		main.printMatJac(distJac);
 		
-		System.out.println("---------------PAGE RANK----------------");
-		start = Instant.now();
-		main.setAdjacencyList(files, distJac, edgeThehard);
-		Graph g = new Graph(main.adjacencyList);
-		
-		PageRank pg = new PageRank();
-		double[] page_rank = pg.page_rank(g, 0.1, 10, g.nbNodes()); 
-		HashMap<Integer, Double> mapPR = new HashMap<Integer, Double>();
-		
-		for(int i = 0; i < page_rank.length; i++)
-			mapPR.put(i, page_rank[i]);
-
-		Map<Integer,Double> topPR = main.getTop10(mapPR, main.nbTOP);
-		main.printResutl(topPR);
-		main.saveResutl("Results/ResultPageRank.result", topPR);
-		finish = Instant.now();
-		long timePR = Duration.between(start, finish).toMillis(); // milliseconds 
-		System.out.println("timeElapsed : " + timePR);
-		System.out.println("-------------------Fin PR----------------------");
-		
-		g.saveGraph("Results/edgesGraph.edges");
+//		System.out.println("---------------PAGE RANK----------------");
+//		start = Instant.now();
+//		main.setAdjacencyList(files, distJac, edgeThehard);
+//		Graph g = new Graph(main.adjacencyList);
+//		
+//		PageRank pg = new PageRank();
+//		double[] page_rank = pg.page_rank(g, 0.1, 10, g.nbNodes()); 
+//		HashMap<Integer, Double> mapPR = new HashMap<Integer, Double>();
+//		
+//		for(int i = 0; i < page_rank.length; i++)
+//			mapPR.put(i, page_rank[i]);
+//
+//		Map<Integer,Double> topPR = main.getTop10(mapPR, main.nbTOP);
+//		main.printResutl(topPR);
+//		main.saveResutl("Results/ResultPageRank.result", topPR);
+//		finish = Instant.now();
+//		long timePR = Duration.between(start, finish).toMillis(); // milliseconds 
+//		System.out.println("timeElapsed : " + timePR);
+//		System.out.println("-------------------Fin PR----------------------");
+//		
+//		g.saveGraph("Results/edgesGraph.edges");
 
 		System.out.println("----------------- Betweeness ------------------");
 		start = Instant.now();
@@ -285,7 +286,7 @@ public class Main {
 		try(BufferedWriter writer = new BufferedWriter(new FileWriter(new File(resultTemps)))) {
 			try {
 				writer.write("BD" + ", " + "nbFile" + ", " + "tDistJac" + ", " + "tPr" + ", " + "tBt" + ", " + "tCl" + "\n");
-				writer.write("BD0" + ", " + main.nbFILE + ", " + timeDistJac + ", " + timePR + ", " + timeBt + ", " + timeCl + "\n");
+//				writer.write("BD0" + ", " + main.nbFILE + ", " + timeDistJac + ", " + timePR + ", " + timeBt + ", " + timeCl + "\n");
 				
 			}catch (IOException e1) {e1.printStackTrace();}
 		} catch(UncheckedIOException ex) { throw ex.getCause(); }
