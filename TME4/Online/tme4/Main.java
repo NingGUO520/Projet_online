@@ -208,7 +208,23 @@ public class Main {
 		} catch(UncheckedIOException ex) { throw ex.getCause(); }
 	}
 	
-	public static void main(String[] args) throws IOException{
+	public static void saveResutlList(String OutputFile, ArrayList<String> listString) throws IOException {
+		try(BufferedWriter writer = new BufferedWriter(new FileWriter(new File(OutputFile)))) {
+			listString.forEach(l -> {
+		        try {
+		        	writer.write(l + "\n");}
+		        catch (IOException ex) { throw new UncheckedIOException(ex); }
+		    });
+		} catch(UncheckedIOException ex) { throw ex.getCause(); }
+	}
+	
+	public static void main(String[] args) throws IOException{	
+		ArrayList<String> files = buildDataBase("books/");
+		System.out.println("files : " + files);
+		saveResutlList("Results/ListBooks", files);
+	}
+	
+	public static void main0(String[] args) throws IOException{
 		Main main = new Main();
 //		ArrayList<String> files = new ArrayList<>();
 				
@@ -282,9 +298,8 @@ public class Main {
 		File[] directoryListing = dir.listFiles();
 		if (directoryListing != null) {
 			for (File child : directoryListing) {
-				String pathFile = child.getAbsolutePath();
-				// System.out.println("Computing for " + pathFile);
-				livres.add(pathFile);
+				// String pathFile = child.getAbsolutePath();
+				livres.add(child.getName());
 			}
 		} else {
 			System.out.println(dir.getName() + " is not a directory");
@@ -293,3 +308,4 @@ public class Main {
 	}
 	
 }
+
