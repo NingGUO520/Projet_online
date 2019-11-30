@@ -29,11 +29,8 @@ public class Closeness {
 		Map<Integer, Double> CCFiles = new HashMap<Integer, Double>();
 		int n = W.length;
 		double val = 0.0;
-		
-		System.out.println("n : " + n);
-		
+				
 		for(int i = 0; i < n; i++) {
-			System.out.println("i : " + i);
 			val = 0.0;
 			for(int j = 0; j < n; j++) {
 				if(i!=j) {
@@ -43,9 +40,12 @@ public class Closeness {
 			CCFiles.put(i, n/val);
 		}
 		
-		
-		
 		return CCFiles;
+	}
+	public void printResult(Map<Integer, Double> closenessResult) {
+		closenessResult.entrySet().forEach(entry -> {
+		    System.out.println("closeness du sommet " + entry.getKey() + " = " + entry.getValue());
+		}); 	
 	}
 	
 	public static Map<String, Double> closenessCentrality(ArrayList<String> files) throws IOException{

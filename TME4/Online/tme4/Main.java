@@ -4,15 +4,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UncheckedIOException;
 import java.net.MalformedURLException;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import java.text.DecimalFormat;
 
 public class Main {
@@ -22,6 +29,7 @@ public class Main {
 	private Map<Integer, Set<Integer>> adjacencyList;
 	final DecimalFormat df = new DecimalFormat("#0.000");
 	private List<Integer> range; 
+	final int nbTOP = 5;
 
 	// pour chaque livre : les mots avec leurs occurences
 	private Map<String, Map<String,Integer>> database = new HashMap<String, Map<String,Integer>>();
@@ -42,7 +50,7 @@ public class Main {
         return indexMots;
 	}
 	
-	public void init(ArrayList<String> files) throws IOException {
+	/*public void init(ArrayList<String> files) throws IOException {
 		int i = 0;
 		
 		range = IntStream.rangeClosed(0, files.size()-1).boxed().collect(Collectors.toList());
@@ -59,7 +67,7 @@ public class Main {
 		System.out.println("Database contains following files");
 		System.out.println(database.keySet());
 		
-	}
+	}*/
 	
 	public ArrayList<String> initDataBase() throws MalformedURLException {
 		System.out.println("initialisation DataBase...");
@@ -151,16 +159,12 @@ public class Main {
 	public static void main2(String[] args) throws IOException{
 		Main main = new Main();
 		ArrayList<String> files = new ArrayList<>();
-//		files.add("Test/S.txt");
-//		files.add("Test/U.txt");
-//		files.add("Test/V.txt");
-//		files.add("Test/w.txt");
-//		
+
 		for(int i = 0; i<10;i++) {
 			files.add("Test/test"+i+".txt");
 		}
 		
-		main.init(files);
+		// main.init(files);
 		Set<ArrayList<Integer>> edges = main.edges(files, edgeThehard);
 		double [][] distJac = main.matDistJaccard();
 		System.out.println(".................matJac..................");
@@ -179,11 +183,36 @@ public class Main {
 		Map<Integer, Double> closenessResult = closeness.closeness(W);
 		System.out.println("closenessResult  : " + closenessResult);
 	}
+
+	public Map<Integer,Double> getTop10(Map<Integer, Double> mapIn, int nbTop) {
+		return mapIn.entrySet()
+        .stream()
+        .sorted((Map.Entry.<Integer,Double>comparingByValue().reversed()))
+        .limit(nbTop)
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+	}
+	
+	public void printResutl(Map<Integer, Double> map) {
+		map.forEach((k,v)->{
+			System.out.println("livre : " + filesIndex.get(k) + " (id:" + k + ") Count : " + v);
+		});
+	}
+	
+	public void saveResutl(String OutputFile, Map<Integer, Double> map) throws IOException {
+		try(BufferedWriter writer = new BufferedWriter(new FileWriter(new File(OutputFile)))) {
+			map.forEach((k,v)-> {
+		        try {
+		        	writer.write(filesIndex.get(k)+ ", " + k + ", " + v + "\n");}
+		        catch (IOException ex) { throw new UncheckedIOException(ex); }
+		    });
+		} catch(UncheckedIOException ex) { throw ex.getCause(); }
+	}
 	
 	public static void main(String[] args) throws IOException{
 		Main main = new Main();
 //		ArrayList<String> files = new ArrayList<>();
-		
+				
+		//Set<ArrayList<Integer>> edges = main.edges(files, edgeThehard);
 		/*files.add("Test/S.txt");
 		files.add("Test/U.txt");
 		files.add("Test/V.txt");
@@ -192,41 +221,75 @@ public class Main {
 //		for(int id = 0; id<10;id++) {
 //			files.add("Test/test"+id+".txt");
 //		}
-//		
-//		main.init(files);
+//		files = buildDataBase("./livres");
+
 		ArrayList<String> files = main.initDataBase();
-//		Set<ArrayList<Integer>> edges = main.edges(files, edgeThehard);
+		// main.init(files);
+
+		Set<ArrayList<Integer>> edges = main.edges(files, edgeThehard);
+
 		double [][] distJac = main.matDistJaccard();
 		System.out.println(".................matJac..................");
 		main.printMatJac(distJac);
-//		Graph g = new Graph(main.adjacencyList, edges);
-//		g.saveGraph("Test/edgesGraph.edges");
+		Graph g = new Graph(main.adjacencyList, edges);
+		g.saveGraph("Test/edgesGraph.edges");
 		
+
+		System.out.println("---------------PAGE RANK----------------");
 		PageRank pg = new PageRank();
-//		
-		//WITH CONNEX GRAPH
-//		double[] page_rank = pg.page_rank(g, 0.1, 10, g.nbNodes()); 
-//			
-//		System.out.println("---------------PAGE RANK----------------");
-//		main.range.forEach(i->System.out.println(i + " " + main.filesIndex.get(i) + " " +page_rank[i]));
-//		System.out.println("----------------------------------------\n");
-//		
+		double[] page_rank = pg.page_rank(g, 0.1, 10, g.nbNodes()); 
+		HashMap<Integer, Double> mapPR = new HashMap<Integer, Double>();
 		
-		//Calculer le betweenness 
+		for(int i = 0; i < page_rank.length; i++)
+			mapPR.put(i, page_rank[i]);
+
+		Map<Integer,Double> topPR = main.getTop10(mapPR, main.nbTOP);
+		main.printResutl(topPR);
+		main.saveResutl("Results/ResultPageRank.result", topPR);
+		System.out.println("-------------------Fin PR----------------------");
+
+		System.out.println("----------------- Betweeness ------------------");
 		Betweeness b = new Betweeness();
 		int size = distJac.length;
 		ArrayList<Integer>[][] result = b.calculCourtsChemins(size,distJac,edgeThehard);
-		
-//	tem.out.println("result ["+i+"]["+j+"] = "+result[i][j]);
 	
 		ArrayList<ArrayList<Integer>>[][] chemins = b.transformeChemins(result,  size);
-//
-//		for(int i = 0; i < size;i++)
-//		for(int j = 0; j< size;j++)
-//	System.out.println("chemins ["+i+"]["+j+"] = "+chemins[i][j]);
-		HashMap<Integer,Double> mapBetweeness = b.calculerBetweeness(chemins,size);
-		b.printResult(mapBetweeness);
-////		b.printResultDistribution(mapBetweeness);
+		Map<Integer,Double> mapBetweeness = b.calculerBetweeness(chemins,size);
+		Map<Integer,Double> topBt = main.getTop10(mapBetweeness, main.nbTOP);
+		
+		main.printResutl(topBt);
+		main.saveResutl("Results/ResultBetweeness.result", topBt);
+		System.out.println("-------------------Fin Bt----------------------");
+		
+		System.out.println("------------------- Closeness -----------------");
+		Closeness closeness = new Closeness();
+		double [][] W = closeness.floydWarshall(distJac);
+		Map<Integer, Double> mapCloseness = closeness.closeness(W);
+		
+		closeness.printResult(mapCloseness);
+		Map<Integer,Double> topCl = main.getTop10(mapCloseness, main.nbTOP);
+		main.printResutl(topCl);
+		main.saveResutl("Results/ResultCloseness.result", topCl);
+				
+		System.out.println("-------------------Fin Cl---------------------\n");
 	}
+	
 
+	public static ArrayList<String> buildDataBase(String nameDir) throws IOException {
+		File dir = new File(nameDir);
+		ArrayList<String> livres = new ArrayList<String>();
+		
+		File[] directoryListing = dir.listFiles();
+		if (directoryListing != null) {
+			for (File child : directoryListing) {
+				String pathFile = child.getAbsolutePath();
+				// System.out.println("Computing for " + pathFile);
+				livres.add(pathFile);
+			}
+		} else {
+			System.out.println(dir.getName() + " is not a directory");
+		}
+		return livres;
+	}
+	
 }

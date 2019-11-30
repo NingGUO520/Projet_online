@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.stream.Collectors;
@@ -295,7 +296,7 @@ public class Betweeness {
 
 	}
 	
-	public void printResult(HashMap<Integer,Double> mapBetweeness) {
+	public void printResult(Map<Integer,Double> mapBetweeness) {
 		
 		for(Entry e : mapBetweeness.entrySet()) {
 			int sommet = (int) e.getKey();
@@ -379,7 +380,7 @@ public class Betweeness {
 //			}
 //		}
 		//calculer betweeness
-		HashMap<Integer,Double> mapBetweeness = b.calculerBetweeness(chemins,size);
+		Map<Integer,Double> mapBetweeness = b.calculerBetweeness(chemins,size);
 		b.printResult(mapBetweeness);
 
 	}
