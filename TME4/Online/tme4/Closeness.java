@@ -11,6 +11,42 @@ import java.util.stream.Collectors;
 import java.io.*;
 
 public class Closeness {
+	public double[][] floydWarshall(double[][] mat){
+		int n = mat.length;
+		double [][] W = mat;
+		
+		for(int k = 0; k < n; k++) {
+			for(int i = 0; i < n; i++) {
+				for(int j = 0; j < n; j++) {
+					W[i][j] = Math.min(W[i][j],W[i][k] + W[k][j]);
+				}
+			}
+		}
+		return W;
+	}
+	
+	public Map<Integer, Double> closeness(double [][] W) throws IOException{
+		Map<Integer, Double> CCFiles = new HashMap<Integer, Double>();
+		int n = W.length;
+		double val = 0.0;
+		
+		System.out.println("n : " + n);
+		
+		for(int i = 0; i < n; i++) {
+			System.out.println("i : " + i);
+			val = 0.0;
+			for(int j = 0; j < n; j++) {
+				if(i!=j) {
+					val += W[i][j];
+				}
+			}
+			CCFiles.put(i, n/val);
+		}
+		
+		
+		
+		return CCFiles;
+	}
 	
 	public static Map<String, Double> closenessCentrality(ArrayList<String> files) throws IOException{
 		Map<String, Double> CCFiles = new HashMap<String, Double>();

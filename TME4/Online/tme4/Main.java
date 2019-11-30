@@ -120,17 +120,17 @@ public class Main {
 				
 	}
 
-	public static void main1(String[] args) throws IOException{
+	public static void main(String[] args) throws IOException{
 		Main main = new Main();
 		ArrayList<String> files = new ArrayList<>();
-		files.add("Test/S.txt");
-		files.add("Test/U.txt");
-		files.add("Test/V.txt");
-		files.add("Test/w.txt");
-		
-		/*for(int i = 0; i<10;i++) {
+//		files.add("Test/S.txt");
+//		files.add("Test/U.txt");
+//		files.add("Test/V.txt");
+//		files.add("Test/w.txt");
+//		
+		for(int i = 0; i<10;i++) {
 			files.add("Test/test"+i+".txt");
-		}*/
+		}
 		
 		main.init(files);
 		Set<ArrayList<Integer>> edges = main.edges(files, edgeThehard);
@@ -144,9 +144,15 @@ public class Main {
 		Map<String, Integer> indexMots = main.index("Test/S.txt");
 		System.out.println("indexMots  : " + indexMots );
 		System.out.println("...... Fin de lancement sh ........");
+		
+		System.out.println(".................closeness..................");
+		Closeness closeness = new Closeness();
+		double [][] W = closeness.floydWarshall(distJac);
+		Map<Integer, Double> closenessResult = closeness.closeness(W);
+		System.out.println("closenessResult  : " + closenessResult);
 	}
 	
-	public static void main(String[] args) throws IOException{
+	public static void main1(String[] args) throws IOException{
 		Main main = new Main();
 		ArrayList<String> files = new ArrayList<>();
 		
