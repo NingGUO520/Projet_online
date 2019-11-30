@@ -1,11 +1,13 @@
 package tme4;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class PageRank {
-
 	void prodmatvect(Graph G, int n, double []A, double []B){
 		List<Integer> range = IntStream.rangeClosed(0, n-1).boxed().collect(Collectors.toList());
 		range.forEach(i-> {B[i] = 0;});
@@ -40,9 +42,11 @@ public class PageRank {
 				if(Ptmp[j] != P[j]) change = false;
 				Ptmp[j] = P[j];
 			}
-			System.out.println("Finished iteration " + i);
 			i = i+1;
 		}
 		return P;
 	}
+	
+
+
 }
