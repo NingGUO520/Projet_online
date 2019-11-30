@@ -195,22 +195,22 @@ public class Main {
 //		
 //		main.init(files);
 		ArrayList<String> files = main.initDataBase();
-		Set<ArrayList<Integer>> edges = main.edges(files, edgeThehard);
+//		Set<ArrayList<Integer>> edges = main.edges(files, edgeThehard);
 		double [][] distJac = main.matDistJaccard();
 		System.out.println(".................matJac..................");
 		main.printMatJac(distJac);
-		Graph g = new Graph(main.adjacencyList, edges);
-		g.saveGraph("Test/edgesGraph.edges");
+//		Graph g = new Graph(main.adjacencyList, edges);
+//		g.saveGraph("Test/edgesGraph.edges");
 		
 		PageRank pg = new PageRank();
 //		
 		//WITH CONNEX GRAPH
-		double[] page_rank = pg.page_rank(g, 0.1, 10, g.nbNodes()); 
-			
-		System.out.println("---------------PAGE RANK----------------");
-		main.range.forEach(i->System.out.println(i + " " + main.filesIndex.get(i) + " " +page_rank[i]));
-		System.out.println("----------------------------------------\n");
-		
+//		double[] page_rank = pg.page_rank(g, 0.1, 10, g.nbNodes()); 
+//			
+//		System.out.println("---------------PAGE RANK----------------");
+//		main.range.forEach(i->System.out.println(i + " " + main.filesIndex.get(i) + " " +page_rank[i]));
+//		System.out.println("----------------------------------------\n");
+//		
 		
 		//Calculer le betweenness 
 		Betweeness b = new Betweeness();

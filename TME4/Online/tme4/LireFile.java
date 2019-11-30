@@ -24,7 +24,7 @@ public class LireFile {
 			}
 			// On stocke le mot et son occurence 
 			Map<String, Integer> livre = new HashMap<String, Integer>();
-
+			String titre = "";
 			URL oracle = new URL("http://www.gutenberg.org/files/"+nomLivre+"/"+nomLivre+".txt");
 			BufferedReader in;
 			try {
@@ -32,7 +32,10 @@ public class LireFile {
 						new InputStreamReader(oracle.openStream()));
 				String inputLine;
 				while ((inputLine = in.readLine()) != null) {
-
+					if(inputLine.startsWith("Title:")) {
+						 titre =  inputLine.substring(6);
+						
+					}
 					String[] words = inputLine.split("\\s+");
 					for (int k = 0; k < words.length; k++) {
 						words[k] = words[k].replaceAll("[^\\w]", "");
@@ -51,8 +54,8 @@ public class LireFile {
 				e.printStackTrace();
 			}
 
-			System.out.println("nombre de mot = "+ livre.size()+" pour livre "+ nomLivre);
-			database.put(nomLivre, livre);
+			System.out.println("nombre de mot = "+ livre.size()+" pour livre <<"+ titre +">");
+			database.put(titre, livre);
 		}
 
 		System.out.println("Il y a "+ database.size()+"livres dans cette database");
