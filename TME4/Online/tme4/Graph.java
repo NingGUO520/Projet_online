@@ -21,7 +21,6 @@ import java.util.stream.Stream;
 public class Graph {
 	public Map<Integer, Set<Integer>> adjacencyList; 
 	public Map<String, Integer> indexFiles;
-    public Set<ArrayList<Integer>> edges;
     public double edgeThreshold = 0.75;
     
     public Graph(List<String> files) {
@@ -39,20 +38,11 @@ public class Graph {
 		
     }
 
-	public Graph(Map<Integer, Set<Integer>> adjacencyList, Set<ArrayList<Integer>> edges) {
+	public Graph(Map<Integer, Set<Integer>> adjacencyList) {
 		this.adjacencyList = adjacencyList;
-		this.edges = edges;
 	}
 	
-    public void setEdges(Set<ArrayList<Integer>> edges) {
-    	this.edges = edges;    	
-    }
-    
-    public Set<ArrayList<Integer>> getEdges() {
-    	return edges;
-    }
-    
-    public Map<String, Integer> getIndexFiles(){
+	public Map<String, Integer> getIndexFiles(){
     	return indexFiles;
     }
 	
@@ -86,11 +76,11 @@ public class Graph {
 	
 	public void saveGraph(String OutputFile) throws IOException {
 		try(BufferedWriter writer = new BufferedWriter(new FileWriter(new File(OutputFile)))) {
-			this.edges.forEach(edge -> {
-		        try {
-		        	writer.write(edge.get(0)+ " " + edge.get(1) + "\n");}
-		        catch (IOException ex) { throw new UncheckedIOException(ex); }
-		    });
+			adjacencyList.entrySet().forEach(e->{e.getValue().forEach(v-> {
+					if(e.getKey()<v) 
+						try {writer.write(e.getKey() + " " + v + "\n");} catch (IOException e1) {e1.printStackTrace();}
+				});
+			});
 		} catch(UncheckedIOException ex) { throw ex.getCause(); }
 	}
 	
