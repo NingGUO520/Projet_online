@@ -27,12 +27,17 @@ public class Main {
 	private static double edgeThehard = 0.75;
 	private Map<String, Integer> indexFiles = new HashMap<String, Integer>();
 	private Map<Integer, String> filesIndex = new HashMap<Integer, String>();
-	private Map<Integer, Set<Integer>> adjacencyList;
+	Map<Integer, Set<Integer>> adjacencyList;
 	final DecimalFormat df = new DecimalFormat("#0.000");
 	private List<Integer> range; 
 	final int nbTOP = 10;
-	final int nbFILE = 10;
+	int nbFILE = 10;
 
+	
+	public Main(double edgeThehard, int nbFiles) {
+		this.edgeThehard = edgeThehard;
+		this.nbFILE = nbFiles;
+	}
 	// pour chaque livre : les mots avec leurs occurences
 	private Map<String, Map<String,Integer>> database = new HashMap<String, Map<String,Integer>>();
 
@@ -209,7 +214,7 @@ public class Main {
 	}
 	
 	public static void main(String[] args) throws IOException{
-		Main main = new Main();
+		Main main = new Main(0.75,20);
 		Instant start, finish;
 
 //		ArrayList<String> files = main.getFiles();
