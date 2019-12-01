@@ -31,7 +31,7 @@ public class Main {
 	final DecimalFormat df = new DecimalFormat("#0.000");
 	private List<Integer> range; 
 	final int nbTOP = 10;
-	final int nbFILE = 700;
+	final int nbFILE = 10;
 
 	// pour chaque livre : les mots avec leurs occurences
 	private Map<String, Map<String,Integer>> database = new HashMap<String, Map<String,Integer>>();
@@ -71,12 +71,12 @@ public class Main {
 		
 	}
 	
-	public ArrayList<String> initDataBase() throws MalformedURLException {
+	public ArrayList<String> initDataBase() throws IOException {
 		ArrayList<String> files = new ArrayList<String>();
 		System.out.println("initialisation DataBase...");
 
 		LireFile l = new LireFile();
-		database = l.getDatabase(nbFILE);
+		database = l.getDatabase(nbFILE, "Results/nameFales"+nbFILE+".files");
 		int i = 0;
 		for(String file :database.keySet() ) {
 			files.add(file);

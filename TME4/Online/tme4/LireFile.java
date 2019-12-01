@@ -1,9 +1,16 @@
 package tme4;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UncheckedIOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -13,9 +20,9 @@ import java.util.Map.Entry;
 import java.util.Scanner;
 
 public class LireFile {
-
-
-	public Map<String, Map<String,Integer>> getDatabase( int nbfile) throws MalformedURLException {
+	public Map<String, Map<String,Integer>> getDatabase( int nbfile, String saveNameFiles) throws IOException {
+		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(saveNameFiles)));
+		
 		// pour chaque livre : les mots avec leurs occurences
 		Map<String, Map<String,Integer>> database = new HashMap<>();
 		int i = 0;
@@ -84,7 +91,12 @@ public class LireFile {
 //			System.out.println("nombre de mot  = "+sum+" pour livre <<"+ titre +">>");
 			database.put(titre, livre);
 			i++;
+			
+		
+			writer.write("id" + ", " + "titre" + ", " + " nbWords" + "\n");
+			writer.write(nomLivre + ", " + titre + ", " + sum + "\n");			
 		}
+		writer.close();
 
 		System.out.println("Il y a "+ database.size()+"livres dans cette database");
 		return database;
