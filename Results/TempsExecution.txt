@@ -1,2 +1,2 @@
-BD, nbFile, tDistJac, tPr, tBt, tCl
-BD0, 100, 35672, 28, 83, 13
+BD, nbFile, DistJaccard, PageRank, Betweeness, Closeness
+Nombre livres, DistJaccard, PageRank, Betweeness, Closeness

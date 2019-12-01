@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class TestPerformance {
 	public void test(double edgeThehard, int nbFiles) throws IOException {
-		System.out.println("Test pour edgeThehard = "+edgeThehard + " et nombre de livres "+nbFiles);
+		System.out.println("---------------------Test pour edgeThehard = "+edgeThehard + " et nombre de livres "+nbFiles+"----------------------------");
 		Main main = new Main(edgeThehard,nbFiles);
 		Instant start, finish;
 
@@ -95,16 +95,26 @@ public class TestPerformance {
 		
 		System.out.println("sauvgarde des temps d'execution...");
 		String resultTemps = "Results/TempsExecution.txt";
-		try(BufferedWriter writer = new BufferedWriter(new FileWriter(new File(resultTemps)))) {
+		try(BufferedWriter writer = new BufferedWriter(new FileWriter(new File(resultTemps),true))) {
 			try {
-				writer.write("BD" + ", " + "nbFile" + ", " + "tDistJac" + ", " + "tPr" + ", " + "tBt" + ", " + "tCl" + "\n");
-				writer.write("BD0" + ", " + main.nbFILE + ", " + timeDistJac + ", " + timePR + ", " + timeBt + ", " + timeCl + "\n");
+				writer.write(main.nbFILE + "	" + timeDistJac + "		" + timePR + "		" + timeBt + "		" + timeCl + "\n");
 				
 			}catch (IOException e1) {e1.printStackTrace();}
 		} catch(UncheckedIOException ex) { throw ex.getCause(); }
+		
+		System.out.println("---------------------Fin de test pour edgeThehard = "+edgeThehard + " et nombre de livres "+nbFiles+"----------------------------");
+
 	}
 
 	public static void main(String[] args) throws IOException {
+		String resultTemps = "Results/TempsExecution.txt";
+		try(BufferedWriter writer = new BufferedWriter(new FileWriter(new File(resultTemps),true))) {
+			try {
+				writer.write("Nombre livres" + ", " + "DistJaccard" + ", " + "PageRank" + ", " + "Betweeness" + ", " + "Closeness" + "\n");
+				
+			}catch (IOException e1) {e1.printStackTrace();}
+		} catch(UncheckedIOException ex) { throw ex.getCause(); }
+		
 		TestPerformance tp = new TestPerformance();
 		int [] nbFileList = {50,100,200,500,1000};
 		for( int n : nbFileList) {
