@@ -1,2 +1,8 @@
 BD, nbFile, DistJaccard, PageRank, Betweeness, Closeness
 Nombre livres, DistJaccard, PageRank, Betweeness, Closeness
+Nombre livres, DistJaccard, PageRank, Betweeness, Closeness
+50	6661		30		20		5
+100	30282		8		30		5
+200	138556		22		128		34
+500	729858		750		859		287
+1000	3137984		18593		5444		1830
