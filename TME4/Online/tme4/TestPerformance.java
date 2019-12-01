@@ -97,7 +97,7 @@ public class TestPerformance {
 		String resultTemps = "Results/TempsExecution.txt";
 		try(BufferedWriter writer = new BufferedWriter(new FileWriter(new File(resultTemps),true))) {
 			try {
-				writer.write(main.nbFILE + "	" + timeDistJac + "		" + timePR + "		" + timeBt + "		" + timeCl + "\n");
+				writer.write(main.nbFILE + "		" + timeDistJac + "		" + timePR + "		" + timeBt + "		" + timeCl + "\n");
 				
 			}catch (IOException e1) {e1.printStackTrace();}
 		} catch(UncheckedIOException ex) { throw ex.getCause(); }
@@ -110,7 +110,8 @@ public class TestPerformance {
 		String resultTemps = "Results/TempsExecution.txt";
 		try(BufferedWriter writer = new BufferedWriter(new FileWriter(new File(resultTemps),true))) {
 			try {
-				writer.write("Nombre livres" + ", " + "DistJaccard" + ", " + "PageRank" + ", " + "Betweeness" + ", " + "Closeness" + "\n");
+				writer.write("#Le temps d'execution pour chaque methode ");
+				writer.write("#Nombre livres" + "	" + "DistJaccard" + "	" + "PageRank" + "		" + "Betweeness" + "	" + "Closeness" + "\n");
 				
 			}catch (IOException e1) {e1.printStackTrace();}
 		} catch(UncheckedIOException ex) { throw ex.getCause(); }

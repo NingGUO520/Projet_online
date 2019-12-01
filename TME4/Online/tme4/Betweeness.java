@@ -75,35 +75,7 @@ public class Betweeness {
 
 	}
 
-//	public List<Pair> lireFile(String fileName){
-//		List<Pair> aretes = new   ArrayList<Pair>();
-//		InputStream fileStream;
-//		try {
-//			fileStream = new FileInputStream(fileName);
-//			InputStream gzipStream = new GZIPInputStream(fileStream);
-//			Reader reader = new InputStreamReader(gzipStream);
-//			String ligne;
-//			BufferedReader buffered = new BufferedReader(reader);
-//			Stream<Pair> stream =	buffered.lines()
-//					.filter(line -> 
-//					Integer.parseInt(line.split(" ")[2]) <= 1500 
-//					&& Integer.parseInt(line.split(" ")[2]) >= 1200 )
-//					.map(line -> 
-//					Integer.parseInt(line.split(" ")[1])<Integer.parseInt(line.split(" ")[0])?
-//							new Pair(Integer.parseInt(line.split(" ")[1]),Integer.parseInt(line.split(" ")[0])):
-//								new Pair(Integer.parseInt(line.split(" ")[0]),Integer.parseInt(line.split(" ")[1]))
-//							);
-//			aretes = stream.collect(Collectors.toList());
-//
-//			reader.close();
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//
-//		return aretes;
-//	}
+
 
 	public ArrayList<Integer>[][] calculShortestPaths(int size,ArrayList<Pair> liens) {
 		ArrayList<Integer>[][] paths= new ArrayList[size][size];
@@ -153,16 +125,17 @@ public class Betweeness {
 			}
 		}
 
-		//debug print m
-		//		for(int i = 0 ; i< size;i++) 
-		//			for(int j = i+1 ; j<size;j++)
-		//				System.out.println("m ["+ i + "]["+j+"] = " + m[i][j] );
-
 
 		return paths;
 	}
 	
-	
+	/**
+	 * methode pour calculer les chemins plus court a partir d'une matrice de distance
+	 * @param size
+	 * @param matrice
+	 * @param edgeThehard
+	 * @return
+	 */
 	public ArrayList<Integer>[][] calculCourtsChemins(int size,double [][] matrice,double edgeThehard){
 		ArrayList<Integer>[][] paths= new ArrayList[size][size];
 		//initialiser paths

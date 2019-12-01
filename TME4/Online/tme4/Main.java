@@ -217,14 +217,6 @@ public class Main {
 		Main main = new Main(0.75,20);
 		Instant start, finish;
 
-//		ArrayList<String> files = main.getFiles();
-		//ArrayList<String> files = new ArrayList<String>();
-		
-		/*for(int id = 0; id<10;id++) {
-			files.add("Test/test"+id+".txt");
-		}*/
-		
-		// files = buildDataBase("./livres");		
 		
 		ArrayList<String> files = main.initDataBase();
 		// main.init(files);
