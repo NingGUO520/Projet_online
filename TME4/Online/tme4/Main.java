@@ -30,8 +30,8 @@ public class Main {
 	private Map<Integer, Set<Integer>> adjacencyList;
 	final DecimalFormat df = new DecimalFormat("#0.000");
 	private List<Integer> range; 
-	final int nbTOP = 15;
-	final int nbFILE = 70;
+	final int nbTOP = 10;
+	final int nbFILE = 700;
 
 	// pour chaque livre : les mots avec leurs occurences
 	private Map<String, Map<String,Integer>> database = new HashMap<String, Map<String,Integer>>();
@@ -293,7 +293,7 @@ public class Main {
 		try(BufferedWriter writer = new BufferedWriter(new FileWriter(new File(resultTemps)))) {
 			try {
 				writer.write("BD" + ", " + "nbFile" + ", " + "tDistJac" + ", " + "tPr" + ", " + "tBt" + ", " + "tCl" + "\n");
-//				writer.write("BD0" + ", " + main.nbFILE + ", " + timeDistJac + ", " + timePR + ", " + timeBt + ", " + timeCl + "\n");
+				writer.write("BD0" + ", " + main.nbFILE + ", " + timeDistJac + ", " + timePR + ", " + timeBt + ", " + timeCl + "\n");
 				
 			}catch (IOException e1) {e1.printStackTrace();}
 		} catch(UncheckedIOException ex) { throw ex.getCause(); }
