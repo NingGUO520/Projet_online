@@ -212,7 +212,7 @@ public class Main {
 		Main main = new Main();
 		Instant start, finish;
 
-		ArrayList<String> files = main.getFiles();
+//		ArrayList<String> files = main.getFiles();
 		//ArrayList<String> files = new ArrayList<String>();
 		
 		/*for(int id = 0; id<10;id++) {
@@ -221,7 +221,7 @@ public class Main {
 		
 		// files = buildDataBase("./livres");		
 		
-		main.initDataBase();
+		ArrayList<String> files = main.initDataBase();
 		// main.init(files);
 		System.out.println("nbfile : " + files.size());
 

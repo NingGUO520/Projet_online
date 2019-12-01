@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
 
 public class LireFile {
@@ -57,13 +58,30 @@ public class LireFile {
 				}
 				in.close();
 			} catch (FileNotFoundException e) {
-				System.out.println("files/"+nomLivre+"/"+nomLivre+".txt no found, passer a livre suivant" );
+//				System.out.println("files/"+nomLivre+"/"+nomLivre+".txt no found, passer a livre suivant" );
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
-			System.out.println("nombre de mot distincts = "+ livre.size()+" pour livre <<"+ titre +">>");
+			if(livre.size()==0) {
+				i++;
+				continue;
+			}
+			int sum = 0;
+			for(Entry<String, Integer> e : livre.entrySet()) {
+				String mot = e.getKey();
+				int nb = e.getValue();
+				sum+=nb;
+			}
+			if(sum<10000){
+				System.out.println("The book <<"+ titre + ">> hasn't enough words (<10000 words), we abandon it\n" );
+
+				i++;
+				continue;
+			}
+			System.out.println(sum+" words in The book <<"+ titre + ">>  has been read by success");
+//			System.out.println("nombre de mot  = "+sum+" pour livre <<"+ titre +">>");
 			database.put(titre, livre);
 			i++;
 		}
