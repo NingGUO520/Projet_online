@@ -151,34 +151,6 @@ public class Main {
 				
 	}
 
-	/*public static void main2(String[] args) throws IOException{
-		Main main = new Main();
-		ArrayList<String> files = new ArrayList<>();
-
-		for(int i = 0; i<10;i++) {
-			files.add("Test/test"+i+".txt");
-		}
-		
-		// main.init(files);
-		
-		double [][] distJac = main.matDistJaccard();
-		System.out.println(".................matJac..................");
-		main.printMatJac(distJac);
-		Set<ArrayList<Integer>> edges = main.edges(files, distJac, edgeThehard);
-		Graph g = new Graph(main.adjacencyList, edges);
-		g.saveGraph("Test/edgesGraph.edges");
-
-		Map<String, Integer> indexMots = main.index("Test/S.txt");
-		System.out.println("indexMots  : " + indexMots );
-		System.out.println("...... Fin de lancement sh ........");
-		
-		System.out.println(".................closeness..................");
-		Closeness closeness = new Closeness();
-		double [][] W = closeness.floydWarshall(distJac);
-		Map<Integer, Double> closenessResult = closeness.closeness(W);
-		System.out.println("closenessResult  : " + closenessResult);
-	}*/
-
 	public Map<Integer,Double> getTop10(Map<Integer, Double> mapIn, int nbTop) {
 		return mapIn.entrySet()
         .stream()
@@ -217,17 +189,22 @@ public class Main {
 		Main main = new Main(0.75,20);
 		Instant start, finish;
 
-//		ArrayList<String> files = main.getFiles();
-		//ArrayList<String> files = new ArrayList<String>();
 		
-		/*for(int id = 0; id<10;id++) {
+//		ArrayList<String> files = main.getFiles();
+		ArrayList<String> files = new ArrayList<String>();
+
+		ArrayList<Integer> notIn = new ArrayList<Integer>(Arrays.asList(4,5,6,8,9,7));
+
+		for(int id = 0; id<10;id++) {
+			if(notIn.contains(id))
+				continue;
 			files.add("Test/test"+id+".txt");
-		}*/
+		}
 		
 		// files = buildDataBase("./livres");		
 		
-		ArrayList<String> files = main.initDataBase();
-		// main.init(files);
+		// rrayList<String> files = main.initDataBase();
+		main.init(files);
 		System.out.println("nbfile : " + files.size());
 
 		start = Instant.now();
@@ -253,13 +230,13 @@ public class Main {
 
 		Map<Integer,Double> topPR = main.getTop10(mapPR, main.nbTOP);
 		main.printResutl(topPR);
-		main.saveResutl("Results/ResultPageRank.result", topPR);
+		// main.saveResutl("Results/ResultPageRank.result", topPR);
 		finish = Instant.now();
 		long timePR = Duration.between(start, finish).toMillis(); // milliseconds 
 		System.out.println("timeElapsed : " + timePR);
 		System.out.println("-------------------Fin PR----------------------");
 		
-		g.saveGraph("Results/edgesGraph.edges");
+		g.saveGraph("Results/GraphRapport.edges");
 
 		System.out.println("----------------- Betweeness ------------------");
 		start = Instant.now();
@@ -272,7 +249,7 @@ public class Main {
 		Map<Integer,Double> topBt = main.getTop10(mapBetweeness, main.nbTOP);
 		
 		main.printResutl(topBt);
-		main.saveResutl("Results/ResultBetweeness.result", topBt);
+		// main.saveResutl("Results/ResultBetweeness.result", topBt);
 		finish = Instant.now();
 		long timeBt = Duration.between(start, finish).toMillis();
 		System.out.println("timeElapsed : " + timeBt);
@@ -287,13 +264,13 @@ public class Main {
 		// closeness.printResult(mapCloseness);
 		Map<Integer,Double> topCl = main.getTop10(mapCloseness, main.nbTOP);
 		main.printResutl(topCl);
-		main.saveResutl("Results/ResultCloseness.result", topCl);
+		// main.saveResutl("Results/ResultCloseness.result", topCl);
 		finish = Instant.now();		
 		long timeCl = Duration.between(start, finish).toMillis();
 		System.out.println("timeElapsed : " + timeCl);
 		System.out.println("-------------------Fin Cl---------------------\n");
 		
-		System.out.println("sauvgarde des temps d'execution...");
+		/*System.out.println("sauvgarde des temps d'execution...");
 		String resultTemps = "Results/TempsExecution.csv";
 		try(BufferedWriter writer = new BufferedWriter(new FileWriter(new File(resultTemps)))) {
 			try {
@@ -302,7 +279,7 @@ public class Main {
 				
 			}catch (IOException e1) {e1.printStackTrace();}
 		} catch(UncheckedIOException ex) { throw ex.getCause(); }
-	
+		*/
 	}
 	
 	public  ArrayList<String> getFiles(){

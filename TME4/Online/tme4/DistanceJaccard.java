@@ -27,9 +27,8 @@ public class DistanceJaccard {
 				collect(Collectors.toList()).stream().
 				mapToInt(Integer::intValue).
 				sum();
-
-		double result = (unionD1D2 == 0 ? 1.0 : intersection / unionD1D2);
-		return result;		
+		
+		return (unionD1D2 == 0 ? 1.0 : intersection / unionD1D2);		
 	}
 	
 	

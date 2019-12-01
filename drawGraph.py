@@ -1,7 +1,7 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 
-input = "Results/edgesGraph.edges"
+input = "Results/GraphRapport.edges"
 output = "Results/graph.png"
 
 f=open(input, "r")

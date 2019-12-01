@@ -37,7 +37,7 @@ public class TestPerformance {
 		System.out.println("timeDistJac : " + timeDistJac);
 		
 		System.out.println(".................matJac..................");
-		main.printMatJac(distJac);
+		// main.printMatJac(distJac);
 		
 		System.out.println("---------------PAGE RANK----------------");
 		start = Instant.now();
@@ -52,7 +52,7 @@ public class TestPerformance {
 			mapPR.put(i, page_rank[i]);
 
 		Map<Integer,Double> topPR = main.getTop10(mapPR, main.nbTOP);
-		main.printResutl(topPR);
+		// main.printResutl(topPR);
 		main.saveResutl("Results/ResultPageRank"+nbFiles, topPR);
 		finish = Instant.now();
 		long timePR = Duration.between(start, finish).toMillis(); // milliseconds 
@@ -71,7 +71,7 @@ public class TestPerformance {
 		Map<Integer,Double> mapBetweeness = b.calculerBetweeness(chemins,size);
 		Map<Integer,Double> topBt = main.getTop10(mapBetweeness, main.nbTOP);
 		
-		main.printResutl(topBt);
+		// main.printResutl(topBt);
 		main.saveResutl("Results/ResultBetweeness"+nbFiles, topBt);
 		finish = Instant.now();
 		long timeBt = Duration.between(start, finish).toMillis();
@@ -84,9 +84,8 @@ public class TestPerformance {
 		double [][] W = closeness.floydWarshall(distJac);
 		Map<Integer, Double> mapCloseness = closeness.closeness(W);
 		
-		// closeness.printResult(mapCloseness);
 		Map<Integer,Double> topCl = main.getTop10(mapCloseness, main.nbTOP);
-		main.printResutl(topCl);
+		//main.printResutl(topCl);
 		main.saveResutl("Results/ResultCloseness"+nbFiles, topCl);
 		finish = Instant.now();		
 		long timeCl = Duration.between(start, finish).toMillis();
@@ -121,6 +120,7 @@ public class TestPerformance {
 			tp.test(0.75,n);
 		}
 		
+		// tp.test(0.75, 1500);
 		
 
 	}
