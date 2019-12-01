@@ -159,11 +159,6 @@ public class Betweeness {
 				}
 			}
 		}
-
-//		for (int i=0;i<size;i++) 
-//			for (int j=0;j<size;j++) 
-//				System.out.println("m["+i+"]["+j+"] = "+m[i][j]);
-////		
 		// calculer les plus courts chemins
 				for(int k = 0 ; k< size;k++) {
 					for(int i = 0 ; i< size;i++) {
@@ -280,7 +275,7 @@ public class Betweeness {
 		}
 	}
 	
-	public void printResultDistribution(HashMap<Integer,Double> mapBetweeness) {
+	public void printResultDistribution(Map<Integer, Double> mapBetweeness, int nbLivres) {
 		HashMap<Double,Integer> map = new HashMap<Double,Integer>();
 		
 		
@@ -297,7 +292,7 @@ public class Betweeness {
 		
 		PrintWriter sortie;
 		try {
-			sortie = new PrintWriter("result.txt");
+			sortie = new PrintWriter("Results/BeDistribution"+nbLivres+".txt");
 			for(Entry e : map.entrySet()) {
 				Double betweenness = (Double) e.getKey();
 				int  nb =  (int) e.getValue();
