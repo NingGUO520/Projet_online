@@ -193,11 +193,8 @@ public class Main {
 //		ArrayList<String> files = main.getFiles();
 		ArrayList<String> files = new ArrayList<String>();
 
-		ArrayList<Integer> notIn = new ArrayList<Integer>(Arrays.asList(4,5,6,8,9,7));
 
 		for(int id = 0; id<10;id++) {
-			if(notIn.contains(id))
-				continue;
 			files.add("Test/test"+id+".txt");
 		}
 		
