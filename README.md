@@ -1,6 +1,6 @@
 # Projet_online
 L'arborescence du projet:
-	-TME4  (le projet java)
+	*TME4  (le projet java)
 		-src :les fichiers sources (.java) 
 			- TestPerformance.java: on lance pour evaluer le performance des 3 indices
 			- Main.java : par defaut, quand on lance, il va tester sur les instances de tests
