@@ -13,7 +13,7 @@ import java.util.Map;
 
 
 /**
- * 
+ * pour la test de de performance pour les 3 methodes : closenenss, betweenness, PageRank
  * @author Ning GUO
  * @author Katia AMICHI
  *
@@ -24,9 +24,7 @@ public class TestPerformance {
 		Main main = new Main(edgeThehard,nbFiles);
 		Instant start, finish;
 
-//	
 		ArrayList<String> files = main.initDataBase();
-		// main.init(files);
 		System.out.println("nbfile : " + files.size());
 
 		start = Instant.now();

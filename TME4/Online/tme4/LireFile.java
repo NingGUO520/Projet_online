@@ -76,16 +76,20 @@ public class LireFile {
 				e.printStackTrace();
 			}
 
+			// si on trouve pas le livre
 			if(livre.size()==0) {
 				i++;
 				continue;
 			}
+			
+			// la somme de mots dans ce livre
 			int sum = 0;
 			for(Entry<String, Integer> e : livre.entrySet()) {
 				String mot = e.getKey();
 				int nb = e.getValue();
 				sum+=nb;
 			}
+			//Si ce livre ne contient pas assez de mots, on l'abandonne
 			if(sum<10000){
 				System.out.println("The book <<"+ titre + ">> hasn't enough words (<10000 words), we abandon it\n" );
 				i++;
