@@ -15,7 +15,12 @@ L'arborescence du projet:
 
 
 Démarrage:		
-	pour lancer: Main.java TestPerformance.java
+	lancer sous eclipse les fichiers:
+	*Main.java 
+		 pour tester sur les petits instances
+	*TestPerformance.java 
+		 pour tests sur une base de donnees de 50,100,200,500,1000,1500,2000 livres par les 3 indices
+		 les résultat sont stoké dans le répertoire Results/
 
 		
 Visualiser les results de test:
@@ -23,8 +28,11 @@ Visualiser les results de test:
 	$ gnuplot plotTempExecution.plot 
 	$ gnuplot plotDistrib.plot
 
-les graphes du resultat : resultTemps.png, BetweennessDis100.png, BetweennessDis200.png,
-						  BetweennessDis500.png
+les graphes du resultat : resultTemps.png,
+			  BetweennessDis100.png,
+			  BetweennessDis200.png,
+			  BetweennessDis500.png
+			  ...
 		
 Ning GUO, Katia AMICHI
 02/12/2019
