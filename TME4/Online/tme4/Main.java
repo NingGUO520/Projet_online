@@ -203,9 +203,7 @@ public class Main {
 		for(int id = 0; id<10;id++) {
 			files.add("Test/test"+id+".txt");
 		}
-		
-		// files = buildDataBase("./livres");		
-		
+				
 		// rrayList<String> files = main.initDataBase();
 		main.init(files);
 		System.out.println("nbfile : " + files.size());
@@ -252,7 +250,7 @@ public class Main {
 		Map<Integer,Double> topBt = main.getTop10(mapBetweeness, main.nbTOP);
 		
 		main.printResutl(topBt);
-		// main.saveResutl("Results/ResultBetweeness.result", topBt);
+		main.saveResutl("Results/ResultBetweeness.result", topBt);
 		finish = Instant.now();
 		long timeBt = Duration.between(start, finish).toMillis();
 		System.out.println("timeElapsed : " + timeBt);
@@ -264,16 +262,15 @@ public class Main {
 		double [][] W = closeness.floydWarshall(distJac);
 		Map<Integer, Double> mapCloseness = closeness.closeness(W);
 		
-		// closeness.printResult(mapCloseness);
 		Map<Integer,Double> topCl = main.getTop10(mapCloseness, main.nbTOP);
 		main.printResutl(topCl);
-		// main.saveResutl("Results/ResultCloseness.result", topCl);
+		main.saveResutl("Results/ResultCloseness.result", topCl);
 		finish = Instant.now();		
 		long timeCl = Duration.between(start, finish).toMillis();
 		System.out.println("timeElapsed : " + timeCl);
 		System.out.println("-------------------Fin Cl---------------------\n");
 		
-		/*System.out.println("sauvgarde des temps d'execution...");
+		System.out.println("sauvgarde des temps d'execution...");
 		String resultTemps = "Results/TempsExecution.csv";
 		try(BufferedWriter writer = new BufferedWriter(new FileWriter(new File(resultTemps)))) {
 			try {
@@ -282,7 +279,7 @@ public class Main {
 				
 			}catch (IOException e1) {e1.printStackTrace();}
 		} catch(UncheckedIOException ex) { throw ex.getCause(); }
-		*/
+		
 	}
 	
 	public  ArrayList<String> getFiles(){

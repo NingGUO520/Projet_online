@@ -15,10 +15,11 @@ import java.util.stream.IntStream;
  */
 public class PageRank {
 	/**
+	 * Produit matrice/vecteur 
 	 * 
-	 * @param G
-	 * @param n
-	 * @param A
+	 * @param G graphe 
+	 * @param n le nombre de sommets 
+	 * @param A 
 	 * @param B
 	 */
 	void prodmatvect(Graph G, int n, double []A, double []B){
@@ -28,11 +29,12 @@ public class PageRank {
 	}
 	
 	/**
+	 * Calcule du score pour chaque livres
 	 * 
-	 * @param G
+	 * @param G graphe
 	 * @param alpha
-	 * @param t
-	 * @param n
+	 * @param t nombre d'itération
+	 * @param n nombrede livres
 	 * @return
 	 */
 	public double [] page_rank(Graph G, double alpha, int t, int n) {
