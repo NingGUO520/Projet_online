@@ -7,13 +7,34 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * 
+ * @author Katia AMICHI
+ * @author Ning GUO
+ *
+ */
 public class PageRank {
+	/**
+	 * 
+	 * @param G
+	 * @param n
+	 * @param A
+	 * @param B
+	 */
 	void prodmatvect(Graph G, int n, double []A, double []B){
 		List<Integer> range = IntStream.rangeClosed(0, n-1).boxed().collect(Collectors.toList());
 		range.forEach(i-> {B[i] = 0;});
 		range.forEach(i-> {G.neighbors(i).forEach(v-> B[v] += (A[i]/G.degree(i)));});
 	}
-
+	
+	/**
+	 * 
+	 * @param G
+	 * @param alpha
+	 * @param t
+	 * @param n
+	 * @return
+	 */
 	public double [] page_rank(Graph G, double alpha, int t, int n) {
 		double[] I = new double[n];
 		double[] P = new double[n];
@@ -46,7 +67,4 @@ public class PageRank {
 		}
 		return P;
 	}
-	
-
-
 }

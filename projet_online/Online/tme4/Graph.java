@@ -18,6 +18,12 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+/**
+ * 
+ * @author Katia AMICHI
+ * @author Ning GUO
+ *
+ */
 public class Graph {
 	public Map<Integer, Set<Integer>> adjacencyList; 
 	public Map<String, Integer> indexFiles;
@@ -30,7 +36,11 @@ public class Graph {
         	indexFiles.put(file, ++i);
         }
 	}
-    
+   
+    /**
+     * 
+     * @param n
+     */
     public Graph(int n) {
     	adjacencyList = IntStream.rangeClosed(0, n-1).boxed().collect(Collectors.toList()).stream().collect(HashMap<Integer, Set<Integer>>::new, 
 				                           (m, c) -> m.put(c, new HashSet<>()),
@@ -38,32 +48,65 @@ public class Graph {
 		
     }
 
+    /**
+     * 
+     * @param adjacencyList
+     */
 	public Graph(Map<Integer, Set<Integer>> adjacencyList) {
 		this.adjacencyList = adjacencyList;
 		System.out.println("this.adjacencyList : " + this.adjacencyList);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public Map<String, Integer> getIndexFiles(){
     	return indexFiles;
     }
 	
+	/**
+	 * 
+	 * @param u
+	 * @return
+	 */
 	public int degree(int u) {
 		return adjacencyList.get(u).size();
 	}
 
+	/**
+	 * 
+	 * @param u
+	 * @return
+	 */
 	public Set<Integer> neighbors(int u){
 		return adjacencyList.get(u);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public int nbNodes() {
 		return adjacencyList.size();
 	}
 
+	/**
+	 * 
+	 * @param u
+	 * @param v
+	 */
 	public void addEdge(int u, int v) {
 		adjacencyList.get(u).add(v);
 		adjacencyList.get(v).add(u);
 	}
 	
+	/**
+	 * 
+	 * @param edgeThreshold
+	 * @param mat
+	 * @return
+	 */
 	public Graph getMatGraph(double edgeThreshold, double[][] mat) {
 		int n = mat.length;
 		Graph graph = new Graph(n);
@@ -75,6 +118,11 @@ public class Graph {
 		return graph;
 	}
 	
+	/**
+	 * 
+	 * @param OutputFile
+	 * @throws IOException
+	 */
 	public void saveGraph(String OutputFile) throws IOException {
 		try(BufferedWriter writer = new BufferedWriter(new FileWriter(new File(OutputFile)))) {
 			adjacencyList.entrySet().forEach(e->{e.getValue().forEach(v-> {

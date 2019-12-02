@@ -5,8 +5,19 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * 
+ * @author Katia AMICHI
+ * @author Ning GUO
+ *
+ */
 public class DistanceJaccard {
-
+	/**
+	 * 
+	 * @param D1
+	 * @param D2
+	 * @return
+	 */
 	public static double distanceJaccard(Map<String, Integer> D1, Map<String, Integer> D2) {
 		double intersection = 0.0;
 		double unionD1D2 = 0.0;
@@ -30,7 +41,4 @@ public class DistanceJaccard {
 		
 		return (unionD1D2 == 0 ? 1.0 : intersection / unionD1D2);		
 	}
-	
-	
-	
 }

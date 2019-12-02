@@ -11,6 +11,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+
+/**
+ * 
+ * @author Ning GUO
+ * @author Katia AMICHI
+ *
+ */
 public class TestPerformance {
 	public void test(double edgeThehard, int nbFiles) throws IOException {
 		System.out.println("---------------------Test pour edgeThehard = "+edgeThehard + " et nombre de livres "+nbFiles+"----------------------------");
@@ -122,8 +129,5 @@ public class TestPerformance {
 		}
 		
 		// tp.test(0.75, 1500);
-		
-
 	}
-
 }

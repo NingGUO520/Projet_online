@@ -23,6 +23,12 @@ import java.util.stream.Stream;
 import java.text.DecimalFormat;
 import java.time.*;
 
+/**
+ * 
+ * @author Katia AMICHI
+ * @author Ning GUO
+ *
+ */
 public class Main {
 	private static double edgeThehard = 0.75;
 	private Map<String, Integer> indexFiles = new HashMap<String, Integer>();
