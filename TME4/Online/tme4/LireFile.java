@@ -20,7 +20,7 @@ import java.util.Map.Entry;
 import java.util.Scanner;
 
 /**
- * 
+ * lire les livres sur la base http://www.gutenberg.org/files
  * @author Ning GUO
  * @author Katia AMICHI
  *

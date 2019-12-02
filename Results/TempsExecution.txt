@@ -6,3 +6,4 @@ Nombre livres, DistJaccard, PageRank, Betweeness, Closeness
 1000	3137984		18593		5444		1830
 1500	8902567		116181		20682		10925
 2000	21403178		368889		37352		40864
+#Le temps d'execution pour chaque methode #Nombre livres	DistJaccard	PageRank		Betweeness	Closeness

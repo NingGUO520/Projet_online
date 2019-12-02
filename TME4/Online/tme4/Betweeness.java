@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 import java.util.zip.GZIPInputStream;
 
 /**
- * 
+ * Cette classe est pour calculer Centralité intermédiaire
  * @author Ning GUO
  * @author Katia AMICHI
  *
@@ -61,9 +61,9 @@ public class Betweeness {
 			return false;
 		}
 	}
-	
+
 	/**
-	 * 
+	 * generer une liste des aretes a partir un fichier
 	 * @param fileName
 	 * @return
 	 */
@@ -92,11 +92,12 @@ public class Betweeness {
 
 	}
 	
+	
 	/**
-	 * 
+	 * Calculer la matrice de plus courts chemins a partir une liste aretes
 	 * @param size
 	 * @param liens
-	 * @return
+	 * @return la matrice Path
 	 */
 	public ArrayList<Integer>[][] calculShortestPaths(int size,ArrayList<Pair> liens) {
 		ArrayList<Integer>[][] paths= new ArrayList[size][size];
@@ -109,7 +110,7 @@ public class Betweeness {
 			}
 		}
 
-		//		    matrice d'adjacence
+		//		Initialisation de   matrice d'adjacence
 		double[][] m = new double[size][size];
 		for(Pair pair : liens) {
 			m[pair.p1][pair.p2] = 1;
@@ -167,7 +168,7 @@ public class Betweeness {
 				paths[i][j] = l; 
 			}
 		}
-		//		    matrice d'adjacence
+		//		completer  matrice d'adjacence
 		double[][] m = new double[size][size];
 		
 		for(int i =0;i<size;i++) {
@@ -245,7 +246,7 @@ public class Betweeness {
 
 
 	/**
-	 * 
+	 * transforme la matrice de Path en une matrice qui stocke les plus courts chemins de forme List<List<Integer>>
 	 * @param paths
 	 * @param size
 	 * @return
@@ -266,7 +267,7 @@ public class Betweeness {
 
 
 	/**
-	 * 
+	 * pour faire un parcours DFS 
 	 * @param i
 	 * @param j
 	 * @param paths
@@ -291,7 +292,7 @@ public class Betweeness {
 	}
 	
 	/**
-	 * 
+	 * afficher le map de betweenness map :<le numero de sommet, son betweenness>
 	 * @param mapBetweeness
 	 */
 	public void printResult(Map<Integer,Double> mapBetweeness) {
@@ -306,7 +307,7 @@ public class Betweeness {
 	}
 	
 	/**
-	 * 
+	 * generer le resultat de distribution de betweenness dans "Results/BeDistribution.txt"
 	 * @param mapBetweeness
 	 * @param nbLivres
 	 */

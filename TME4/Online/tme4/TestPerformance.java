@@ -24,15 +24,7 @@ public class TestPerformance {
 		Main main = new Main(edgeThehard,nbFiles);
 		Instant start, finish;
 
-//		ArrayList<String> files = main.getFiles();
-		//ArrayList<String> files = new ArrayList<String>();
-		
-		/*for(int id = 0; id<10;id++) {
-			files.add("Test/test"+id+".txt");
-		}*/
-		
-		// files = buildDataBase("./livres");		
-		
+//	
 		ArrayList<String> files = main.initDataBase();
 		// main.init(files);
 		System.out.println("nbfile : " + files.size());
@@ -123,11 +115,12 @@ public class TestPerformance {
 		} catch(UncheckedIOException ex) { throw ex.getCause(); }
 		
 		TestPerformance tp = new TestPerformance();
-		int [] nbFileList = {50,100,200,500,1000};
+		
+		// le nombre de livres pour tester varie entre 50-2000
+		int [] nbFileList = {50,100,200,500,1000,1500,2000};
 		for( int n : nbFileList) {
 			tp.test(0.75,n);
 		}
 		
-		// tp.test(0.75, 1500);
 	}
 }
