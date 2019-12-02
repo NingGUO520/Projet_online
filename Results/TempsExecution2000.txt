@@ -1,0 +1,2 @@
+Nombre livres, DistJaccard, PageRank, Betweeness, Closeness
+2000	21403178		368889		37352		40864

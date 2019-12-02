@@ -19,6 +19,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
+ * structure de notre Graph 
  * 
  * @author Katia AMICHI
  * @author Ning GUO
@@ -29,6 +30,11 @@ public class Graph {
 	public Map<String, Integer> indexFiles;
     public double edgeThreshold = 0.75;
     
+    /**
+     * initialisation du graphe avec une liste de documents
+     * 
+     * @param files liste de nom de livres
+     */
     public Graph(List<String> files) {
     	indexFiles = new HashMap<String, Integer>();
     	int i = 0;
@@ -38,8 +44,10 @@ public class Graph {
 	}
    
     /**
+     * initialisation du graphe avec un nombre de documents,
+     * initialisation de la matrice d'adjacence de taille n 
      * 
-     * @param n
+     * @param n nombre de documents (sommets) dans notre graphe
      */
     public Graph(int n) {
     	adjacencyList = IntStream.rangeClosed(0, n-1).boxed().collect(Collectors.toList()).stream().collect(HashMap<Integer, Set<Integer>>::new, 
@@ -49,6 +57,7 @@ public class Graph {
     }
 
     /**
+     * initialisation du graphe avec une matrice adjacencyList 
      * 
      * @param adjacencyList
      */
@@ -58,8 +67,9 @@ public class Graph {
 	}
 	
 	/**
+	 * récupérer la map d'index de fichiers, (pour chaque fichier son id dans le graphe
 	 * 
-	 * @return
+	 * @return amp pour chaque ficher son id dans le graphe
 	 */
 	public Map<String, Integer> getIndexFiles(){
     	return indexFiles;

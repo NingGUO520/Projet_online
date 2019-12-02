@@ -13,10 +13,12 @@ import java.util.stream.Stream;
  */
 public class DistanceJaccard {
 	/**
+	 * permet de calculer la distance de Jaccard entre deux documents
 	 * 
-	 * @param D1
-	 * @param D2
-	 * @return
+	 * @param D1 le premier document (livre)
+	 * @param D2 le deuxième document (livre)
+	 * 
+	 * @return la distance de Jaccard entre D1 et D2
 	 */
 	public static double distanceJaccard(Map<String, Integer> D1, Map<String, Integer> D2) {
 		double intersection = 0.0;

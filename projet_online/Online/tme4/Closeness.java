@@ -53,9 +53,10 @@ public class Closeness {
 	}
 	
 	/**
+	 * index(D) = {(m, k) : le mot m apparaît k fois dans la liste l(D)}}.
 	 * 
 	 * @param fileName
-	 * @return
+	 * @return une map de String et Long, pour chaque mot dans le fichier [fileName] son nombre d'occurence
 	 * @throws IOException
 	 */
 	public static Map<String, Long> index(String fileName) throws IOException {
@@ -68,8 +69,9 @@ public class Closeness {
 	}
 	
 	/**
+	 * affichage de l'indice de centralité pour chaque livre
 	 * 
-	 * @param closenessResult
+	 * @param closenessResult une map contenant l'indice de centralité pour chaque livre
 	 */
 	public void printResult(Map<Integer, Double> closenessResult) {
 		closenessResult.entrySet().forEach(entry -> {
@@ -78,9 +80,11 @@ public class Closeness {
 	}
 	
 	/**
+	 * écriture dans le fichier [OutputFile] la map [mapHashMap]
 	 * 
-	 * @param mHashMap
-	 * @param OutputFile
+	 * @param mHashMap map String, Integer à sauvgarder (sauvgarde de la map pour l'indice de centralité pour chaque livre)
+	 * @param OutputFilele fichier où écrire
+	 * 
 	 * @throws IOException
 	 */
 	public static void writeMap(Map<String, Integer> mHashMap, String OutputFile) throws IOException {
