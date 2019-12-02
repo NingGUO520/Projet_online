@@ -16,6 +16,7 @@ L'arborescence du projet:
 
 Démarrage:		
 	lancer sous eclipse les fichiers:
+	
 	*Main.java 
 		 pour tester sur les petits instances
 	*TestPerformance.java 
